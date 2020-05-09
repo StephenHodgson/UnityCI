@@ -1,3 +1,5 @@
+[CmdletBinding()]
+
 Write-Host "Downloading Unity Hub..."
 
 $url = "https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe";
@@ -18,13 +20,19 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 }
 else {
   $startProcessArgs = @{
-      'FilePath'     = 'sudo';
-      'ArgumentList' = @("installer", "-package", $outpath);
-      'PassThru'     = $true;
-      'Wait'         = $true;
+    'FilePath'     = 'sudo';
+    'ArgumentList' = @("installer", "-package", $outpath);
+    'PassThru'     = $true;
+    'Wait'         = $true;
   }
 }
 
-Start-Process -Filepath $outpath -ArgumentList $startProcessArgs -Wait
-
-Write-Host "Installation Complete!"
+$process = Start-Process @startProcessArgs
+if ( $process ) {
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  }
+  else {
+    Write-Verbose "$(Get-Date): Succeeded."
+  }
+}
