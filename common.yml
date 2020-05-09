@@ -30,7 +30,7 @@ stages:
               #arguments: # Optional
               #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
               errorActionPreference: 'continue' # Optional. Options: stop, continue, silentlyContinue
-              #failOnStderr: true # Optional
+              failOnStderr: true # Optional
               #ignoreLASTEXITCODE: false # Optional
               #pwsh: true # Optional
               #workingDirectory: # Optional
