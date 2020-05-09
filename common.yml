@@ -15,8 +15,8 @@ parameters:
 stages:
     - stage: Install Hub
       #displayName: ${{ format('{0} build agent', parameters.os.image) }}
-      - ${{ each pair in parameters.os }}:
-        jobs:
+      jobs:
+        - ${{ each pair in parameters.os }}:
           - job:
             displayName: ${{ format('{0}', parameters.os.image) }}
             steps:
