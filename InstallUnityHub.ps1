@@ -9,11 +9,22 @@ $wc.DownloadFile($url, $outpath)
 Write-Host "Download Complete, Starting installation..."
 
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
-  Start-Process -Filepath $outpath -ArgumentList '/S' -Verb runas -Wait
+  $startProcessArgs = @{
+    'FilePath'     = $outpath;
+    'ArgumentList' = @("/S", "/D=$Destination");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
 }
 else {
-  Start-Process -Filepath $outpath -Wait
+  $startProcessArgs = @{
+      'FilePath'     = 'sudo';
+      'ArgumentList' = @("installer", "-package", $outpath);
+      'PassThru'     = $true;
+      'Wait'         = $true;
+  }
 }
 
+Start-Process -Filepath $outpath -ArgumentList $startProcessArgs -Wait
 
 Write-Host "Installation Complete!"
