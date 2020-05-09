@@ -14,8 +14,8 @@ parameters:
 
 stages:
   - ${{ each pair in parameters.os }}:
-    - stage:
-      displayName: ${{ format('{0} build agent', parameters.platform) }}
+    #- stage:
+    #  displayName: ${{ format('{0} build agent', parameters.platform) }}
       jobs:
         - job:
           displayName: ${{ format('{0}', parameters.image) }}
