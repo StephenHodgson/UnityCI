@@ -15,10 +15,10 @@ parameters:
 stages:
   - ${{ each pair in parameters.os }}:
     - stage:
-      displayName: ${{ format('{0} build agent', parameters.platform) }}
+      displayName: ${{ format('{0} build agent', parameters.os.image) }}
       jobs:
         - job:
-          displayName: ${{ format('{0}', parameters.image) }}
+          displayName: ${{ format('{0}', parameters.os.image) }}
           steps:
           # PowerShell
           # Run a PowerShell script on Linux, macOS, or Windows
