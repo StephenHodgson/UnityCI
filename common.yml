@@ -13,18 +13,23 @@ parameters:
         image: ubuntu-latest
 
 stages:
-   - ${{ each pair in parameters.os }}:
-      steps:
-      # PowerShell
-      # Run a PowerShell script on Linux, macOS, or Windows
-      - task: PowerShell@2
-        inputs:
-          targetType: 'filePath' # Optional. Options: filePath, inline
-          filePath: InstallUnityHub.ps1 # Required when targetType == FilePath
-          #arguments: # Optional
-          #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
-          errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
-          failOnStderr: true # Optional
-          #ignoreLASTEXITCODE: false # Optional
-          pwsh: true # Optional
-          #workingDirectory: # Optional
+  - ${{ each pair in parameters.os }}:
+    - stage: Build
+      displayName: ${{ format('{0} build agent', parameters.platform) }}
+      jobs:
+        - job:
+          displayName: ${{ format('{0}', parameters.image) }}
+          steps:
+          # PowerShell
+          # Run a PowerShell script on Linux, macOS, or Windows
+          - task: PowerShell@2
+            inputs:
+              targetType: 'filePath' # Optional. Options: filePath, inline
+              filePath: InstallUnityHub.ps1 # Required when targetType == FilePath
+              #arguments: # Optional
+              #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
+              errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
+              failOnStderr: true # Optional
+              #ignoreLASTEXITCODE: false # Optional
+              pwsh: true # Optional
+              #workingDirectory: # Optional
