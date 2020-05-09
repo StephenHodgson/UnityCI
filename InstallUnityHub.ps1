@@ -12,7 +12,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   Start-Process -Filepath $outpath -ArgumentList '/S' -Verb runas -Wait
 }
 else {
-  Start-Process -Filepath $outpath -Verb runas -Wait
+  Start-Process -Filepath $outpath -Wait
 }
 
 
