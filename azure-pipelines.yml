@@ -19,4 +19,4 @@ trigger:
       - master
 
 extends:
-  template: azure_pipelines/common.yml
+  template: common.yml
