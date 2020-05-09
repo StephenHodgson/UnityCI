@@ -1,5 +1,3 @@
-[CmdletBinding()]
-
 Write-Host "Downloading Unity Hub..."
 
 $url = "https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe";
