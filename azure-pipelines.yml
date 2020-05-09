@@ -4,7 +4,7 @@ variables:
   ${{ if ne( variables['build.reason'], 'PullRequest' ) }}:
     date: ${{ '$(Date:yyyyMMdd)' }}
 
-name: $UnityCI ${{ coalesce( variables['date'], '$(System.PullRequest.PullRequestNumber)', '$(Date:yyyyMMdd)' ) }}$(Rev:.r)
+name: UnityCI ${{ coalesce( variables['date'], '$(System.PullRequest.PullRequestNumber)', '$(Date:yyyyMMdd)' ) }}$(Rev:.r)
 
 pr:
   autoCancel: true
