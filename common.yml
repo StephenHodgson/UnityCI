@@ -28,7 +28,7 @@ stages:
               filePath: InstallUnityHub.ps1 # Required when targetType == FilePath
               #arguments: # Optional
               #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
-              errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
+              errorActionPreference: 'continue' # Optional. Options: stop, continue, silentlyContinue
               failOnStderr: true # Optional
               #ignoreLASTEXITCODE: false # Optional
               #pwsh: true # Optional
