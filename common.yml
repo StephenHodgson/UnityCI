@@ -13,7 +13,7 @@ parameters:
         image: ubuntu-latest
 
 stages:
-    - stage: Install Hub
+    - stage: InstallHub
       #displayName: ${{ format('{0} build agent', parameters.os.image) }}
       jobs:
         - ${{ each pair in parameters.os }}:
