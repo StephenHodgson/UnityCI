@@ -14,8 +14,8 @@ parameters:
 
 stages:
   - ${{ each pair in parameters.os }}:
-    #- stage:
-    #  displayName: ${{ format('{0} build agent', parameters.platform) }}
+    - stage:
+      displayName: ${{ format('{0} build agent', parameters.platform) }}
       jobs:
         - job:
           displayName: ${{ format('{0}', parameters.image) }}
@@ -23,6 +23,7 @@ stages:
           # PowerShell
           # Run a PowerShell script on Linux, macOS, or Windows
           - task: PowerShell@2
+            condition: always()
             inputs:
               targetType: 'filePath' # Optional. Options: filePath, inline
               filePath: InstallUnityHub.ps1 # Required when targetType == FilePath
