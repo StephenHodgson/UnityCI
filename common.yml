@@ -13,24 +13,24 @@ parameters:
         image: ubuntu-latest
 
 stages:
-  - ${{ each pair in parameters.os }}:
-    - stage:
-      displayName: ${{ format('{0} build agent', parameters.os.image) }}
-      jobs:
-        - job:
-          displayName: ${{ format('{0}', parameters.os.image) }}
-          steps:
-          # PowerShell
-          # Run a PowerShell script on Linux, macOS, or Windows
-          - task: PowerShell@2
-            condition: always()
-            inputs:
-              targetType: 'filePath' # Optional. Options: filePath, inline
-              filePath: InstallUnityHub.ps1 # Required when targetType == FilePath
-              #arguments: # Optional
-              #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
-              errorActionPreference: 'continue' # Optional. Options: stop, continue, silentlyContinue
-              failOnStderr: true # Optional
-              #ignoreLASTEXITCODE: false # Optional
-              #pwsh: true # Optional
-              #workingDirectory: # Optional
+    - stage: Install Hub
+      #displayName: ${{ format('{0} build agent', parameters.os.image) }}
+      - ${{ each pair in parameters.os }}:
+        jobs:
+          - job:
+            displayName: ${{ format('{0}', parameters.os.image) }}
+            steps:
+            # PowerShell
+            # Run a PowerShell script on Linux, macOS, or Windows
+            - task: PowerShell@2
+              condition: always()
+              inputs:
+                targetType: 'filePath' # Optional. Options: filePath, inline
+                filePath: InstallUnityHub.ps1 # Required when targetType == FilePath
+                #arguments: # Optional
+                #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
+                errorActionPreference: 'continue' # Optional. Options: stop, continue, silentlyContinue
+                failOnStderr: true # Optional
+                #ignoreLASTEXITCODE: false # Optional
+                #pwsh: true # Optional
+                #workingDirectory: # Optional
