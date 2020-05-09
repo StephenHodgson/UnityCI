@@ -8,6 +8,12 @@ $wc.DownloadFile($url, $outpath)
 
 Write-Host "Download Complete, Starting installation..."
 
-Start-Process -Filepath $outpath -ArgumentList "/S" -Verb runas- Wait -PassThru
+if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
+  Start-Process -Filepath $outpath -ArgumentList '/S' -Verb runas -Wait
+}
+else {
+  Start-Process -Filepath $outpath -Verb runas -Wait
+}
+
 
 Write-Host "Installation Complete!"
