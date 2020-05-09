@@ -8,6 +8,6 @@ $wc.DownloadFile($url, $outpath)
 
 Write-Host "Download Complete, Starting installation..."
 
-Start-Process -Filepath $outpath -ArgumentList "/S" -Wait -PassThru
+Start-Process -Filepath $outpath -ArgumentList "/S" -Verb runas- Wait -PassThru
 
 Write-Host "Installation Complete!"
