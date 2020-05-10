@@ -10,8 +10,8 @@ parameters:
         image: ubuntu-latest
 
 stages:
-- ${{ each pair in parameters.os }}:
-  - template: Install-Hub.yml
-    parameters:
-      platform: ${{ pair.key }}
-      ${{ insert }}: ${{ pair.value }}
+  - ${{ each pair in parameters.os }}:
+    - template: Install-Hub.yml
+      parameters:
+        platform: ${{ pair.key }}
+        ${{ insert }}: ${{ pair.value }}
