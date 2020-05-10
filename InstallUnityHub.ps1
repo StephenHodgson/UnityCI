@@ -22,7 +22,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   # sudo installer -package $Package.Path -target
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("installer", "-package", $outpath, "-target", "/Applications/UnityHub");
+    'ArgumentList' = @("installer", "-package", "$outpath.dmg", "-target", "/Applications/UnityHub");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
@@ -33,7 +33,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #sudo chmod +x UnityHub.AppImage
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("chmod", "+x", $outPath);
+    'ArgumentList' = @("chmod", "+x", "$outPath.AppImage");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
