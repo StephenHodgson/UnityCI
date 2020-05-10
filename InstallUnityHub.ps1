@@ -10,7 +10,7 @@ Write-Host "$(Get-Date): Download Complete, Starting installation..."
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
   $startProcessArgs = @{
-    'FilePath'     = $outpath;
+    'FilePath'     = "$outPath/UnityHubSetup.exe";
     'ArgumentList' = @("/S");
     'PassThru'     = $true;
     'Wait'         = $true;
