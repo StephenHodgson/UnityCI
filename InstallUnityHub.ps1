@@ -17,12 +17,13 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
-  $wc.DownloadFile("$baseUrl/UnityHubSetup.dmg", "$outPath/UnityHubSetup.dmg")
+  $package = "$outPath/UnityHubSetup.dmg"
+  $wc.DownloadFile("$baseUrl/UnityHubSetup.dmg", $package.Path)
   # Note that $Destination has to be a disk path.
   # sudo installer -package $Package.Path -target
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("installer", "-package", "$outpath/UnityHubSetup.dmg", "-target", "/Applications/UnityHub");
+    'ArgumentList' = @("installer", "-package", $package.Path, "-target", "/Applications/UnityHub");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
