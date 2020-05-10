@@ -32,7 +32,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #sudo hdiutil attach <image>.dmg
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("hdiutil", "mount", $downloadPath);
+    'ArgumentList' = @("hdiutil", "attach", $downloadPath);
     'PassThru'     = $true;
     'Wait'         = $true;
   }
