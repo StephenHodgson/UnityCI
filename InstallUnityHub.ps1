@@ -22,7 +22,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   # sudo installer -package $Package.Path -target
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("installer", "-package", "$outpath.dmg", "-target", "/Applications/UnityHub");
+    'ArgumentList' = @("installer", "-package", "$outpath/UnityHubSetup.dmg", "-target", "/Applications/UnityHub");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
