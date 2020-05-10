@@ -14,4 +14,4 @@ stages:
   - template: Install-Hub.yml
     parameters:
       platform: ${{ pair.key }}
-      ${{ insert }}: ${{ parameters.os.windows }}
+      ${{ insert }}: ${{ pair.value }}
