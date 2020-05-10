@@ -15,18 +15,65 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     'PassThru'     = $true;
     'Wait'         = $true;
   }
+
+  $process = Start-Process @startProcessArgs
+
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
-  $package = "$outPath/UnityHubSetup.dmg"
-  $wc.DownloadFile("$baseUrl/UnityHubSetup.dmg", $package.Path)
-  # Note that $Destination has to be a disk path.
-  # sudo installer -package $Package.Path -target
+  $image = "UnityHubSetup"
+  $package = "$image.dmg"
+  $downloadPath = "$outPath/$package"
+  $wc.DownloadFile("$baseUrl/$package", $downloadPath)
+
+  #sudo hdiutil attach <image>.dmg
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("installer", "-package", $package.Path, "-target", "/Applications/UnityHub");
+    'ArgumentList' = @("hdiutil", "attach", $downloadPath.Path);
     'PassThru'     = $true;
     'Wait'         = $true;
   }
+
+  $process = Start-Process @startProcessArgs
+
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
+
+  #sudo installer -package /Volumes/<image>/<image>.pkg -target /
+  $startProcessArgs = @{
+    'FilePath'     = 'sudo';
+    'ArgumentList' = @("installer", "-package", "/Volumes/$image/$package", "-target", "/Applications");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
+
+  $process = Start-Process @startProcessArgs
+
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
+
+  #sudo hdiutil detach /Volumes/<image>
+  $startProcessArgs = @{
+    'FilePath'     = 'sudo';
+    'ArgumentList' = @("hdiutil", "detach", "/Volumes/$image");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
+
+  $process = Start-Process @startProcessArgs
+
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
+
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
@@ -38,13 +85,13 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
     'PassThru'     = $true;
     'Wait'         = $true;
   }
-}
 
-$process = Start-Process @startProcessArgs
+  $process = Start-Process @startProcessArgs
 
-if ( $process.ExitCode -ne 0) {
-  Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  exit 1
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
 }
 
 Write-Host "$(Get-Date): Succeeded."
