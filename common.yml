@@ -1,17 +1,26 @@
 parameters:
-  - name: os
-    type: object
-    default:
-      windows:
-        image: windows-latest
-      macOS:
-        image: macOS-latest
-      linux:
-        image: ubuntu-latest
+- name: os
+  type: object
+  default:
+    windows:
+      image: vs2017-win2016
+      components: '"Windows", "Windows_IL2CPP"'
+      target: StandaloneWindows64
+    macOS:
+      image: macOS-10.15
+      components: '"Mac"'
+      target: StandaloneOSX
+    linux:
+      image: ubuntu-16.04
+      components: '"Linux"'
+      target: StandaloneLinux64
+
+pool:
+  name: 'Azure Pipelines'
 
 stages:
-  - ${{ each pair in parameters.os }}:
-    - template: Install-Hub.yml
-      parameters:
-        platform: ${{ pair.key }}
-        ${{ insert }}: ${{ pair.value }}
+- ${{ each pair in parameters.os }}:
+  - template: Install-Hub.yml
+    parameters:
+      platform: ${{ pair.key }}
+      ${{ insert }}: ${{ pair.value }}
