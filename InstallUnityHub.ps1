@@ -39,7 +39,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   }
 }
 
-$process = Start-Process @startProcessArgs
+$process = Start-Process @startProcessArgs -Wait
 
 if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
