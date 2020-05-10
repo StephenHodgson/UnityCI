@@ -1,7 +1,4 @@
 parameters:
-  - name: isReleaseBuild
-    type: boolean
-    default: false
   - name: os
     type: object
     default:
@@ -13,22 +10,8 @@ parameters:
         image: ubuntu-latest
 
 stages:
-    - stage: InstallHub
-      jobs:
-        - ${{ each pair in parameters.os }}:
-          - job:
-            displayName: ${{ format('{0}', parameters.os.image) }}
-            steps:
-            - pwsh: InstallUnityHub.ps1
-            - task: PowerShell@2
-              condition: always()
-              inputs:
-                targetType: 'filePath' # Optional. Options: filePath, inline
-                filePath: InstallUnityHub.ps1 # Required when targetType == FilePath
-                #arguments: # Optional
-                #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
-                errorActionPreference: 'continue' # Optional. Options: stop, continue, silentlyContinue
-                failOnStderr: true # Optional
-                #ignoreLASTEXITCODE: false # Optional
-                #pwsh: true # Optional
-                #workingDirectory: # Optional
+- ${{ each pair in parameters.os }}:
+  - template: Install-Hub.yml
+    parameters:
+      platform: ${{ pair.key }}
+      ${{ insert }}: ${{ parameters.os.windows }}

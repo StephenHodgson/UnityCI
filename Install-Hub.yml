@@ -1,0 +1,21 @@
+stages:
+- stage:
+  displayName: ${{ format('{0} build agent', parameters.platform) }}
+
+  jobs:
+    - job:
+      displayName: ${{ format('{0}', parameters.image) }}
+        steps:
+        #- pwsh: InstallUnityHub.ps1
+        - task: PowerShell@2
+          condition: always()
+          inputs:
+            targetType: 'filePath' # Optional. Options: filePath, inline
+            filePath: InstallUnityHub.ps1 # Required when targetType == FilePath
+            #arguments: # Optional
+            #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
+            errorActionPreference: 'continue' # Optional. Options: stop, continue, silentlyContinue
+            failOnStderr: true # Optional
+            #ignoreLASTEXITCODE: false # Optional
+            #pwsh: true # Optional
+            #workingDirectory: # Optional
