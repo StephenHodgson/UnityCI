@@ -28,8 +28,8 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   }
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   #https://www.linuxdeveloper.space/install-unity-linux/
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   #sudo chmod +x UnityHub.AppImage
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
@@ -39,11 +39,11 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   }
 }
 
-$process = Start-Process @startProcessArgs -Wait
+$process = Start-Process @startProcessArgs
 
 if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  exit 1
 }
-else {
-  Write-Host "$(Get-Date): Succeeded."
-}
+
+Write-Host "$(Get-Date): Succeeded."
