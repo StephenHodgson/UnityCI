@@ -17,7 +17,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
-  $wc.DownloadFile("$baseUrl.AppImage", "$outPath.AppImage")
+  $wc.DownloadFile("$baseUrl.dmg", "$outPath.dmg")
   # Note that $Destination has to be a disk path.
   # sudo installer -package $Package.Path -target
   $startProcessArgs = @{
@@ -28,7 +28,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   }
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
-  $wc.DownloadFile("$baseUrl.dmg", "$outPath.dmg")
+  $wc.DownloadFile("$baseUrl.AppImage", "$outPath.AppImage")
   #https://www.linuxdeveloper.space/install-unity-linux/
   #sudo chmod +x UnityHub.AppImage
   $startProcessArgs = @{
@@ -40,11 +40,10 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 }
 
 $process = Start-Process @startProcessArgs
-if ( $process ) {
-  if ( $process.ExitCode -ne 0) {
-    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  }
-  else {
-    Write-Verbose "$(Get-Date): Succeeded."
-  }
+
+if ( $process.ExitCode -ne 0) {
+  Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+}
+else {
+  Write-Verbose "$(Get-Date): Succeeded."
 }
