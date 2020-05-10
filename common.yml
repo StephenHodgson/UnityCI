@@ -12,6 +12,7 @@ parameters:
 stages:
 - ${{ each pair in parameters.os }}:
   - template: Install-Hub.yml
+    condition: always()
     parameters:
       platform: ${{ pair.key }}
       ${{ insert }}: ${{ pair.value }}
