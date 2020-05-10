@@ -45,5 +45,5 @@ if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
 }
 else {
-  Write-Verbose "$(Get-Date): Succeeded."
+  Write-Host "$(Get-Date): Succeeded."
 }
