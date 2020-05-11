@@ -41,10 +41,6 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host $dmgAppPath
 
-  #$existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
-
-  #Write-Host "Check if installed:" $existingApp
-
   #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
@@ -60,15 +56,11 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
     exit 1
   }
 
-  Write-Host "Verifying install..."
-
-  $existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
-
-  Write-Host "Hub Intsalled to:" $existingApp
-
   hdiutil unmount $dmgVolume
 
-  sudo "$existingApp-- --headless help"
+  mdfind "kMDItemKind == 'Application'"
+
+  #sudo "$existingApp-- --headless help"
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
