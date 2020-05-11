@@ -59,10 +59,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod u+x "$outPath/UnityHub.AppImage"
 
-  # Unity\ Hub.AppImage -- --headless help
-  $hubPath = "/$outPath/UnityHub.AppImage"
+  find . -type f -executable
 
-  #. $hubPath -- --headless help
+  # Unity\ Hub.AppImage -- --headless help
+  $hubPath = "UnityHub.AppImage"
+
+  ./$hubPath -- --headless help
 }
 
 Write-Host "Install Complete: $hubPath"
