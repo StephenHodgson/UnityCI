@@ -26,7 +26,19 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe--`" --headless help"
+    $startProcessArgs = @{
+      'FilePath'     = "C:\Program Files\Unity Hub\Unity Hub.exe";
+      'ArgumentList' = @("-- --headless help");
+      'PassThru'     = $true;
+      'Wait'         = $true;
+    }
+
+    $process = Start-Process @startProcessArgs
+
+    if ( $process.ExitCode -ne 0) {
+      Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+      exit 1
+    }
   }
   else
   {
@@ -71,7 +83,19 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  sudo `"$outPath/UnityHub.AppImage--`" --headless help
+  $startProcessArgs = @{
+    'FilePath'     = "$outPath/UnityHub.AppImage";
+    'ArgumentList' = @("-- --headless help");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
+
+  $process = Start-Process @startProcessArgs
+
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
 }
 
 Write-Host "$(Get-Date): Succeeded."
