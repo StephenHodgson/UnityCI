@@ -30,7 +30,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $wc.DownloadFile("$baseUrl/$package", $downloadPath)
 
   # sudo hdiutil attach <image>.dmg
-  $dmgVolume = (sudo hdiutil attach $downloadPath -nobrowse) | Select-String -Pattern "/Volumes/Unity Hub"
+  $dmgVolume = (sudo hdiutil attach $downloadPath -nobrowse) | Select-String -Pattern '\/Volumes\/.*'
 
   Write-Host $dmgVolume
 
