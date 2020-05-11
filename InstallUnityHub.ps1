@@ -24,10 +24,12 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
+  Write-Host "Install Complete"
+
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
     $hubExe = "C:\Program Files\Unity Hub\Unity Hub.exe"
-    #pwsh -NoLogo -NonInteractive -Command "'C:\Program Files\Unity Hub\Unity Hub.exe'-- --headless help" *>&1
+    #cmd /c "'C:\Program Files\Unity Hub\Unity Hub.exe'-- --headless help"
   }
   else
   {
@@ -52,10 +54,11 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   hdiutil unmount $dmgVolume
 
-  mdfind "kMDItemKind == 'Application'"
+  Write-Host "Install Complete"
+  #mdfind "kMDItemKind == 'Application'"
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
-  #pwsh -NoLogo -NonInteractive -Command "'/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' '-- --headless help'" *>&1
+  #pwsh -NoLogo -NonInteractive -Command "'/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' '-- --headless help'"
   $hubExe = "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub"
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
@@ -63,18 +66,14 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
   # Unity\ Hub.AppImage -- --headless help
-  #pwsh -NoLogo -NonInteractive -Command "'Unity\ Hub.AppImage' '-- --headless help'" *>&1
+  #pwsh -NoLogo -NonInteractive -Command "'Unity\ Hub.AppImage' '-- --headless help'"
+  Write-Host "Install Complete"
   $hubExe = "Unity\ Hub.AppImage"
 }
 
-$startProcessArgs = @{
-  'FilePath'     = "`"$hubExe`"";
-  'ArgumentList' = @("-- --headless help");
-  'PassThru'     = $true;
-  'Wait'         = $true;
-}
+Write-Host "Geting hub help..."
 
-$process = Start-Process @startProcessArgs
+$process =  $process = Start-Process -FilePath "`"$hubExe`"" -ArgumentList "-- headless help" -PassThru -Wait
 
 if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
