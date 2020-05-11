@@ -26,8 +26,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    $args = '"C:\Program Files\Unity Hub\Unity Hub.exe"-- --headless help temp.txt';
-    $output = cmd /c temp.exe $args 2`>`&1
+    $output = (cmd /c "C:\Program Files\Unity Hub\Unity Hub.exe"-- --headless help)
     Write-Output $output
   }
   else
@@ -49,7 +48,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host $dmgAppPath
 
-  sudo cp --verbose -rf "`"$dmgAppPath`"" "/Applications"
+  sudo cp --verbose -rvf "`"$dmgAppPath`"" "/Applications"
   # #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   # $startProcessArgs = @{
   #   'FilePath'     = 'sudo';
@@ -81,19 +80,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  $startProcessArgs = @{
-    'FilePath'     = "$outPath/UnityHub.AppImage";
-    'ArgumentList' = @("-- --headless help");
-    'PassThru'     = $true;
-    'Wait'         = $true;
-  }
-
-  $process = Start-Process @startProcessArgs
-
-  if ( $process.ExitCode -ne 0) {
-    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-    exit 1
-  }
+  $output = (sudo "$outPath/UnityHub.AppImage"-- --headless help)
+  Write-Output $output
 }
 
 Write-Host "$(Get-Date): Succeeded."
