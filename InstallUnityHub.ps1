@@ -24,7 +24,8 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-  Get-Item -Path "HKLM::HKEY_LOCAL_MACHINE\Software\Unity Technologies"
+  Test-Path "HKLM::HKEY_LOCAL_MACHINE\Software\Unity Technologies"
+  Get-Item -Path "HKLM::HKEY_LOCAL_MACHINE\Software\Unity Technologies\hub"
 
   #cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe-- --headless help`""
 }
