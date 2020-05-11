@@ -52,7 +52,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   sudo cp -rvf "`"$dmgAppPath`"" "/Applications"
   hdiutil unmount $dmgVolume
 
-  $appPath = (find "/Applications/Unity" -name "*Hub.app")
+  $appPath = mdfind "kMDItemKind == 'Application'" | Select-String -Pattern '*Hub.app'
   Write-Host $appPath
 
   $hubPath = "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub"
