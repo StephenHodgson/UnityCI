@@ -24,6 +24,8 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
+  Get-Item -Path "Registry::HKEY_LOCAL_MACHINE\Software\Unity" | Select-Object -ExpandProperty Property
+
   Start-Process "C:\Program Files\Unity Hub\Unity Hub.exe" -ArgumentList "-- --headless help" -PassThru
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
