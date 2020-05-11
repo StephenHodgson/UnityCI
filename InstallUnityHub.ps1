@@ -54,7 +54,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   mdfind "kMDItemKind == 'Application'"
 
-  $hubPath = "/Applications/Unity/Hub.app/Contents/MacOS/Unity/Hub"
+  $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
 
@@ -67,14 +67,14 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  $hubPath = "Unity\ Hub.AppImage"
+  $hubPath = "Unity Hub.AppImage"
 
   # Unity\ Hub.AppImage -- --headless help
 
   #$output = (pwsh -NoLogo -NonInteractive -NoProfile -Command ". 'Unity\ Hub.AppImage' -- --headless help")
   #Write-Host $output
 
-  . $outPath/UnityHub.AppImage -- --headless help
+  . $hubPath -- --headless help
 }
 
 Write-Host "Install Complete: $hubPath"
