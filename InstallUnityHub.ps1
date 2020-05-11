@@ -30,7 +30,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $wc.DownloadFile("$baseUrl/$package", $downloadPath)
 
   # sudo hdiutil attach <image>.dmg
-  $dmgVolume = (sudo hdiutil attach $downloadPath -nobrowse) | Select-String -Pattern '\/Volumes\/.*'
+  $dmgVolume = (sudo hdiutil attach $downloadPath -nobrowse) | Select-String -Pattern '\/Volumes\/.*' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } | select-object -first 1
 
   Write-Host $dmgVolume
 
