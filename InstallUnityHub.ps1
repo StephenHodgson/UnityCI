@@ -30,7 +30,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
     #"Unity Hub.exe" -- --headless help
 
-    $output = (pwsh -NoLogo -NonInteractive -NoProfile -Command ". 'C:\Program Files\Unity Hub\Unity Hub.exe -- --headless help'")
+    $output = (pwsh -NoLogo -NonInteractive -NoProfile -Command ". 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help")
     Write-Host $output
     . 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
   }
