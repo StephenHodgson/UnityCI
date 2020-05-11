@@ -29,7 +29,8 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
 
     #"Unity Hub.exe" -- --headless help
-    . 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
+    #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
+    pwsh -NoLogo -NonInteractive -NoProfile -Command "'C:\Program Files\Unity Hub\Unity Hub.exe -- --headless help'"
   }
   else
   {
