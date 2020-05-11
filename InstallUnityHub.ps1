@@ -26,13 +26,9 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
-
     #"Unity Hub.exe" -- --headless help
-
-    #$output = (pwsh -NoLogo -NonInteractive -NoProfile -Command ". 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help")
-    #Write-Host $output
-    . 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
+    $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
+    #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
   }
   else
   {
@@ -54,23 +50,22 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   #mdfind "kMDItemKind == 'Application'"
 
-  $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
-
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
-
-  . $hubPath -- --headless help
+  $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
+  #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
-  $hubPath = "$outPath/UnityHub.AppImage"
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", $hubPath)
-  sudo chmod +x $hubPath
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
+  sudo chmod u+x "$outPath/UnityHub.AppImage"
 
   # Unity\ Hub.AppImage -- --headless help
-
-  . $hubPath -- --headless help
+  $hubPath = "$outPath/UnityHub.AppImage"
+  Resolve-Path $hubPath
+  ls
+  #. $hubPath -- --headless help
 }
 
 Write-Host "Install Complete: $hubPath"
 
-#. $hubPath -- --headless help
+. $hubPath -- --headless help
