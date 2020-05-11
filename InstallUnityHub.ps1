@@ -77,7 +77,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   hdiutil unmount $dmgVolume
 
-  -Host "Verifying install..."
+  Write-Host "Verifying install..."
 
   $existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
 
