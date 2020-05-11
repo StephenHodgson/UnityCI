@@ -26,19 +26,9 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    $startProcessArgs = @{
-      'FilePath'     = "C:\Program Files\Unity Hub\Unity Hub.exe";
-      'ArgumentList' = @("-- --headless help");
-      'PassThru'     = $true;
-      'Wait'         = $true;
-    }
-
-    $process = Start-Process @startProcessArgs
-
-    if ( $process.ExitCode -ne 0) {
-      Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-      exit 1
-    }
+    $args = '"C:\Program Files\Unity Hub\Unity Hub.exe"-- --headless help temp.txt';
+    $output = cmd /c temp.exe $args 2`>`&1
+    Write-Output $output
   }
   else
   {
@@ -59,21 +49,21 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host $dmgAppPath
 
-  #sudo cp -R "`"$dmgAppPath`"" "/Applications"
+  sudo cp --verbose -rf "`"$dmgAppPath`"" "/Applications"
   # #sudo cp -R /Volumes/<image>\ <image>.app /Applications
-  $startProcessArgs = @{
-    'FilePath'     = 'sudo';
-    'ArgumentList' = @("cp", "--verbose", "-R", "`"$dmgAppPath`"", "/Applications");
-    'PassThru'     = $true;
-    'Wait'         = $true;
-  }
+  # $startProcessArgs = @{
+  #   'FilePath'     = 'sudo';
+  #   'ArgumentList' = @("cp --verbose", "-rf", "`"$dmgAppPath`"", "/Applications");
+  #   'PassThru'     = $true;
+  #   'Wait'         = $true;
+  # }
 
-  $process = Start-Process @startProcessArgs
+  # $process = Start-Process @startProcessArgs
 
-  if ( $process.ExitCode -ne 0) {
-    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-    exit 1
-  }
+  # if ( $process.ExitCode -ne 0) {
+  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  #   exit 1
+  # }
 
   hdiutil unmount $dmgVolume
 
