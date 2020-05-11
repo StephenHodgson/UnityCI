@@ -71,13 +71,9 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $hubExe = "Unity\ Hub.AppImage"
 }
 
-Write-Host "Geting hub help..."
+Write-Host "Getting hub help..."
 
-$process =  $process = Start-Process -FilePath "`"$hubExe`"" -ArgumentList "-- headless help" -PassThru
+$args = "-- --headless help"
+$output = & "$hubExe" $args 2>&1
 
-if ( $process.ExitCode -ne 0) {
-  Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  exit 1
-}
-
-Write-Host "$(Get-Date): Succeeded."
+Write-Host "$(Get-Date): Succeeded. $output"
