@@ -59,21 +59,21 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host $dmgAppPath
 
-  sudo cp -R "`"$dmgAppPath`"" "/Applications"
+  #sudo cp -R "`"$dmgAppPath`"" "/Applications"
   # #sudo cp -R /Volumes/<image>\ <image>.app /Applications
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("cp", "-R","`"$dmgVolume`"", "`"$dmgAppPath`"", "/Applications");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
+  $startProcessArgs = @{
+    'FilePath'     = 'sudo';
+    'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
 
-  # $process = Start-Process @startProcessArgs
+  $process = Start-Process @startProcessArgs
 
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
 
   hdiutil unmount $dmgVolume
 
