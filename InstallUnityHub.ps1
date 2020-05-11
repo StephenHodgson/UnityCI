@@ -26,7 +26,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    cmd /c "C:\Program Files\Unity Hub\Unity Hub.exe"-- --headless help
+    pwsh -NoLogo -NonInteractive -Command "'C:\Program Files\Unity Hub\Unity Hub.exe'-- --headless help" *>&1
   }
   else
   {
@@ -54,16 +54,14 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   mdfind "kMDItemKind == 'Application'"
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
-  $output = (& "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub" -- --headless help)
-  Write-Output $output
+  pwsh -NoLogo -NonInteractive -Command "'/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' '-- --headless help'" *>&1
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
   # Unity\ Hub.AppImage -- --headless help
-  $output = (& "Unity\ Hub.AppImage" -- --headless help)
-  Write-Output $output
+  pwsh -NoLogo -NonInteractive -Command "'Unity\ Hub.AppImage' '-- --headless help'" *>&1
 }
 
 Write-Host "$(Get-Date): Succeeded."
