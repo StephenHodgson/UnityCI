@@ -74,6 +74,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Getting hub help..."
 
 $args = "-- --headless help"
-$output = & "$hubExe" $args 2>&1
+
+Invoke-Expression "& `"$hubExe`" `"$args`" 2>&1"
 
 Write-Host "$(Get-Date): Succeeded. $output"
