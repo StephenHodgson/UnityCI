@@ -26,7 +26,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   Get-Item -Path "Registry::HKEY_LOCAL_MACHINE\Software\Unity" | Select-Object -ExpandProperty Property
 
-  cmd.exe /C "C:\Program Files\Unity Hub\Unity Hub.exe-- --headless help"
+  cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
