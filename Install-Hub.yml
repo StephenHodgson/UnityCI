@@ -1,7 +1,7 @@
 stages:
-- stage:
-  displayName: ${{ format('{0} build agent', parameters.platform) }}
-  condition: always()
+# - stage:
+#   displayName: ${{ format('{0} build agent', parameters.platform) }}
+#   condition: always()
   jobs:
     - job:
       displayName: ${{ format('{0}', parameters.image) }}
