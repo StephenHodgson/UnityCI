@@ -9,19 +9,20 @@ Write-Host "$(Get-Date): Download Complete, Starting installation..."
 
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
-  $startProcessArgs = @{
-    'FilePath'     = "$outPath/UnityHubSetup.exe";
-    'ArgumentList' = @("/S");
-    'PassThru'     = $true;
-    'Wait'         = $true;
-  }
+  cmd.exe /c "$outPath/UnityHubSetup.exe /S"
+  # $startProcessArgs = @{
+  #   'FilePath'     = "$outPath/UnityHubSetup.exe";
+  #   'ArgumentList' = @("/S");
+  #   'PassThru'     = $true;
+  #   'Wait'         = $true;
+  # }
 
-  $process = Start-Process @startProcessArgs
+  # $process = Start-Process @startProcessArgs
 
-  if ( $process.ExitCode -ne 0) {
-    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-    exit 1
-  }
+  # if ( $process.ExitCode -ne 0) {
+  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  #   exit 1
+  # }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -39,7 +40,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("cp", "-R", "$dmgAppPath", "/Applications");
+    'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
@@ -56,21 +57,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  #sudo chmod +x UnityHub.AppImage
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("chmod", "+x", "$outPath/UnityHub.AppImage");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
-
-  # $process = Start-Process @startProcessArgs
-
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
 }
 
 Write-Host "$(Get-Date): Succeeded."
