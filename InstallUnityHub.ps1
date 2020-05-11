@@ -48,11 +48,12 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host $dmgAppPath
 
-  sudo cp --verbose -rvf "`"$dmgAppPath`"" "/Applications"
+  sudo cp -rvf "`"$dmgAppPath`"" "/Applications"
+
   # #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   # $startProcessArgs = @{
   #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("cp --verbose", "-rf", "`"$dmgAppPath`"", "/Applications");
+  #   'ArgumentList' = @("cp --verbose", "-rvf", "`"$dmgAppPath`"", "/Applications");
   #   'PassThru'     = $true;
   #   'Wait'         = $true;
   # }
