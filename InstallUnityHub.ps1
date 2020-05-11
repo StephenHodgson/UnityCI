@@ -67,15 +67,11 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   hdiutil unmount $dmgVolume
 
-  Write-Host "Verifying install..."
-
-  $existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
-
-  Write-Host "Hub Intsalled to:" $existingApp
-
   mdfind "kMDItemKind == 'Application'"
 
   #pwsh -noprofile -command "`"/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help`""
+  $output = (sudo "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub"-- --headless help)
+  Write-Output $output
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
