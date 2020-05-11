@@ -59,8 +59,6 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #$output = (pwsh -NoLogo -NonInteractive -NoProfile -Command { ". '/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help" } )
   #Write-Host $output
 
-  Resolve-Path "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub"
-
   . '/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
@@ -74,9 +72,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #$output = (pwsh -NoLogo -NonInteractive -NoProfile -Command ". 'Unity\ Hub.AppImage' -- --headless help")
   #Write-Host $output
 
-  Resolve-Path "Unity\ Hub.AppImage"
-
-  . 'Unity\ Hub.AppImage' -- --headless help
+  . $outPath/UnityHub.AppImage -- --headless help
 }
 
 Write-Host "Install Complete: $hubPath"
