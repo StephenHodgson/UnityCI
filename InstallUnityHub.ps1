@@ -73,6 +73,4 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Complete $hubPath"
 Write-Host "Getting hub help..."
 
-$args = "--headless help"
-
-. `"$hubPath`" -- $args
+. `"$hubPath`" -- --headless help
