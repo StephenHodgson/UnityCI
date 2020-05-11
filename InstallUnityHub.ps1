@@ -29,7 +29,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $downloadPath = "$outPath/$package"
   $wc.DownloadFile("$baseUrl/$package", $downloadPath)
 
-  #sudo hdiutil attach <image>.dmg
+  # sudo hdiutil attach <image>.dmg
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
     'ArgumentList' = @("hdiutil", "attach", $downloadPath, "-nobrowse");
@@ -44,8 +44,20 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
     exit 1
   }
 
-  Get-PSDrive
-  Get-ChildItem -Path "/Volumes"
+  # diskutil list
+  $startProcessArgs = @{
+    'FilePath'     = 'sudo';
+    'ArgumentList' = @("diskutil", "list");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
+
+  $process = Start-Process @startProcessArgs
+
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
 
   #Select-String -Pattern "/Volumes/Unity Hub"
 
