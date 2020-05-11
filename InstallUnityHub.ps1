@@ -54,7 +54,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   mdfind "kMDItemKind == 'Application'"
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
-  $output = (pwsh -NoLogo -NonInteractive -Command "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help")
+  $output = (pwsh -NoLogo -NonInteractive -Command "`"/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub`" -- --headless help")
   Write-Output $output
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
@@ -62,7 +62,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
   # Unity\ Hub.AppImage -- --headless help
-  $output = (pwsh -NoLogo -NonInteractive -Command "Unity\ Hub.AppImage -- --headless help")
+  $output = (pwsh -NoLogo -NonInteractive -Command "`"Unity\ Hub.AppImage`" -- --headless help")
   Write-Output $output
 }
 
