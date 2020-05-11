@@ -63,7 +63,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
   # Unity\ Hub.AppImage -- --headless help
-  $output = (pwsh -NoLogo -NonInteractive -Command "$outPath/UnityHub.AppImage -- --headless help")
+  $output = (pwsh -NoLogo -NonInteractive -Command "'Unity\ Hub.AppImage' -- --headless help")
   Write-Output $output
 }
 
