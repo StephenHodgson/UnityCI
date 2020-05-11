@@ -75,4 +75,4 @@ Write-Host "Getting hub help..."
 
 $args = "--headless help"
 
-. `"$hubPath`" -- `"$args`" 2>&1
+. `"$hubPath`" -- `"$args`"
