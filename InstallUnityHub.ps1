@@ -76,5 +76,3 @@ Write-Host "Getting hub help..."
 $args = "--headless help"
 
 Invoke-Expression "& `"$hubExe`" -- `"$args`" 2>&1"
-
-Write-Host "$(Get-Date): Succeeded. $output"
