@@ -60,11 +60,11 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo chmod u+x "$outPath/UnityHub.AppImage"
 
   # Unity\ Hub.AppImage -- --headless help
-  $hubPath = "/UnityHub.AppImage"
+  $hubPath = "$outPath/UnityHub.AppImage"
 
   #./UnityHub.AppImage -- --headless help
 }
 
 Write-Host "Install Complete: $hubPath"
 
-.$hubPath -- --headless editors -r
+. $hubPath -- --headless editors -i
