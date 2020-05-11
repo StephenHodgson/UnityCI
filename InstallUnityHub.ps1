@@ -26,7 +26,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
+    cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe--`" --headless help"
   }
   else
   {
@@ -71,7 +71,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  sudo `"$outPath/UnityHub.AppImage`"-- --headless help
+  sudo `"$outPath/UnityHub.AppImage--`" --headless help
 }
 
 Write-Host "$(Get-Date): Succeeded."
