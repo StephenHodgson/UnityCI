@@ -11,7 +11,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
 
   $startProcessArgs = @{
-    'FilePath'     = "`"$outPath/UnityHubSetup.exe`"";
+    'FilePath'     = "$outPath/UnityHubSetup.exe";
     'ArgumentList' = @("/S");
     'PassThru'     = $true;
     'Wait'         = $true;
@@ -24,6 +24,8 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
+  Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe"
+
   if( Test-Path "HKLM::HKEY_LOCAL_MACHINE\Software\Unity Technologies" )
   {
     Get-Item -Path "HKLM::HKEY_LOCAL_MACHINE\Software\Unity Technologies\Hub"
@@ -33,7 +35,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-  pwsh -noprofile -command "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
+  #pwsh -noprofile -command "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -48,32 +50,33 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host $dmgAppPath
 
+  sudo cp -R "`"$dmgAppPath`"" "/Applications"
   #sudo cp -R /Volumes/<image>\ <image>.app /Applications
-  $startProcessArgs = @{
-    'FilePath'     = 'sudo';
-    'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
-    'PassThru'     = $true;
-    'Wait'         = $true;
-  }
+  # $startProcessArgs = @{
+  #   'FilePath'     = 'sudo';
+  #   'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
+  #   'PassThru'     = $true;
+  #   'Wait'         = $true;
+  # }
 
-  $process = Start-Process @startProcessArgs
+  # $process = Start-Process @startProcessArgs
 
-  if ( $process.ExitCode -ne 0) {
-    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-    exit 1
-  }
-
-  mdfind "kMDItemKind == 'Application'"
+  # if ( $process.ExitCode -ne 0) {
+  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  #   exit 1
+  # }
 
   hdiutil unmount $dmgVolume
 
-  pwsh -noprofile -command "`"/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help`""
+  mdfind "kMDItemKind == 'Application'"
+
+  #pwsh -noprofile -command "`"/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help`""
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  pwsh -noprofile -command "$outPath/UnityHub.AppImage-- --headless help"
+  #pwsh -noprofile -command "$outPath/UnityHub.AppImage-- --headless help"
 }
 
 Write-Host "$(Get-Date): Succeeded."
