@@ -63,7 +63,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   # #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
+    'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications", "-verbose");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
