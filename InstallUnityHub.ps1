@@ -26,7 +26,8 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    pwsh -NoLogo -NonInteractive -Command "'C:\Program Files\Unity Hub\Unity Hub.exe'-- --headless help"
+    $output = (pwsh -NoLogo -NonInteractive -Command "'C:\Program Files\Unity Hub\Unity Hub.exe'-- --headless help")
+    Write-Output $output
   }
   else
   {
@@ -54,7 +55,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   mdfind "kMDItemKind == 'Application'"
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
-  $output = (pwsh -NoLogo -NonInteractive -Command "'/Applications/Unity\' 'Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help")
+  $output = (pwsh -NoLogo -NonInteractive -Command "'/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help")
   Write-Output $output
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
