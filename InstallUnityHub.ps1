@@ -45,7 +45,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("cp", "-R", "$dmgAppPath", "/Applications");
+    'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
@@ -67,7 +67,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  sudo "`"$outPath/UnityHub.AppImage-- --headless help`""
+  & "`"$outPath/UnityHub.AppImage-- --headless help`""
 }
 
 Write-Host "$(Get-Date): Succeeded."
