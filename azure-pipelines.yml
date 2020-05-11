@@ -7,7 +7,7 @@ variables:
 name: UnityCI ${{ coalesce( variables['date'], '$(System.PullRequest.PullRequestNumber)', '$(Date:yyyyMMdd)' ) }}$(Rev:.r)
 
 pr:
-  autoCancel: true
+  #autoCancel: true
   branches:
    include:
      - master

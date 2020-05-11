@@ -24,7 +24,6 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
     $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
