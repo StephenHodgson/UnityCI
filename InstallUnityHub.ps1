@@ -68,7 +68,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 }
 
 $startProcessArgs = @{
-  'FilePath'     = "$hubExe";
+  'FilePath'     = "`"$hubExe`"";
   'ArgumentList' = @("-- --headless help");
   'PassThru'     = $true;
   'Wait'         = $true;
