@@ -25,9 +25,11 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   }
 
   Write-Host "Verifying registry key..."
-  Get-Item -Path "Registry::HKEY_LOCAL_MACHINE\Software\Unity"
+  $key = Get-Item -Path "Registry::HKEY_LOCAL_MACHINE\Software\Unity"
 
-  #cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
+  Write-Host "Registry Key: $key"
+
+  & "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -61,13 +63,13 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   mdfind "kMDItemKind == 'Application'"
 
-  sudo "`"/Applications/Unity Hub.app`"-- --headless help"
+  sudo "`"/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help`"-- --headless help"
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  sudo "$outPath/UnityHub.AppImage-- --headless help"
+  sudo "`"Unity\ Hub.AppImage`"-- --headless help"
 }
 
 Write-Host "$(Get-Date): Succeeded."
