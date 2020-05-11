@@ -26,7 +26,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   Get-Item -Path "HKLM::HKEY_LOCAL_MACHINE\Software\Unity Technologies" | Select-Object -ExpandProperty $Value
 
-  cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
+  cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe-- --headless help`""
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -60,13 +60,13 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   mdfind "kMDItemKind == 'Application'"
 
-  sudo "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help"
+  sudo "`"/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help`""
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  sudo "Unity\ Hub.AppImage-- --headless help"
+  sudo "`"Unity\ Hub.AppImage-- --headless help`""
 }
 
 Write-Host "$(Get-Date): Succeeded."
