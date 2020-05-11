@@ -52,6 +52,9 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   sudo cp -rvf "`"$dmgAppPath`"" "/Applications"
   hdiutil unmount $dmgVolume
 
+  $appPath = (find "/Applicatoins" -name "*Hub.app" -depth 1)
+  Write-Host $appPath
+
   $hubPath = "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub"
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
@@ -59,7 +62,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #$output = (pwsh -NoLogo -NonInteractive -NoProfile -Command { ". '/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help" } )
   #Write-Host $output
 
-  . '/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help
+  . $appPath -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
