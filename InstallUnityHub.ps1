@@ -26,7 +26,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   Get-Item -Path "HKLM::HKEY_LOCAL_MACHINE\Software\Unity Technologies" | Select-Object -ExpandProperty $Value
 
-  cmd.exe "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
+  cmd.exe /C "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -44,7 +44,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
+    'ArgumentList' = @("cp", "-R", "$dmgAppPath", "/Applications");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
