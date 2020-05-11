@@ -42,6 +42,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   }
   else
   {
+    Write-Error "Unity Hub.exe path not found!"
     exit 1
   }
 }
@@ -75,6 +76,12 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   # }
 
   hdiutil unmount $dmgVolume
+
+  -Host "Verifying install..."
+
+  $existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
+
+  Write-Host "Hub Intsalled to:" $existingApp
 
   mdfind "kMDItemKind == 'Application'"
 
