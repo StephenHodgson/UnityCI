@@ -44,6 +44,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
     exit 1
   }
 
+  Get-PSDrive
   Get-ChildItem -Path "/Volumes"
 
   #Select-String -Pattern "/Volumes/Unity Hub"
