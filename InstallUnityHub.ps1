@@ -24,91 +24,22 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
-  $image = "UnityHubSetup"
-  $package = "$image.dmg"
+  $package = "UnityHubSetup.dmg"
   $downloadPath = "$outPath/$package"
   $wc.DownloadFile("$baseUrl/$package", $downloadPath)
 
-  # sudo hdiutil attach <image>.dmg
   $dmgVolume = (sudo hdiutil attach $downloadPath -nobrowse) | Select-String -Pattern '\/Volumes\/.*' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } | select-object -first 1
 
   Write-Host $dmgVolume
 
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("hdiutil", "attach", $downloadPath, "-nobrowse");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
+  $dmgAppPath = (find "$DMGVolume" -name "*.app" -depth 1)
 
-  # $process = Start-Process @startProcessArgs
+  Write-Host $dmgAppPath
 
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
-
-  # diskutil list
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("diskutil", "list");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
-
-  # $process = Start-Process @startProcessArgs
-
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
-
-  #Select-String -Pattern "/Volumes/Unity Hub"
-
-  #Write-Host $dmgVolume
-
-  # $dmgApp = Get-ChildItem $dmgVolume | Select-String -Pattern ".app"
-  # Write-Host $dmgApp
-
-  # #TODO Check if installed
-
-  # #sudo cp -R /Volumes/<image>\ <image>.app /Applications
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("cp", "-R", "$dmgVolume", "$dmgApp", "/Applications");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
-
-  # $process = Start-Process @startProcessArgs
-
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
-
-  # #sudo hdiutil detach /Volumes/<image>
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("hdiutil", "detach", "/Volumes/$image");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
-
-  # $process = Start-Process @startProcessArgs
-
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
-}
-elseif ($global:PSVersionTable.OS.Contains("Linux")) {
-  #https://www.linuxdeveloper.space/install-unity-linux/
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  #sudo chmod +x UnityHub.AppImage
+  #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   $startProcessArgs = @{
     'FilePath'     = 'sudo';
-    'ArgumentList' = @("chmod", "+x", "$outPath/UnityHub.AppImage");
+    'ArgumentList' = @("cp", "-R", "$dmgAppPath", "/Applications");
     'PassThru'     = $true;
     'Wait'         = $true;
   }
@@ -119,6 +50,27 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
     Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
     exit 1
   }
+
+  hdiutil unmount $dmgVolume
+}
+elseif ($global:PSVersionTable.OS.Contains("Linux")) {
+  #https://www.linuxdeveloper.space/install-unity-linux/
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
+  #sudo chmod +x UnityHub.AppImage
+  sudo chmod +x "$outPath/UnityHub.AppImage"
+  # $startProcessArgs = @{
+  #   'FilePath'     = 'sudo';
+  #   'ArgumentList' = @("chmod", "+x", "$outPath/UnityHub.AppImage");
+  #   'PassThru'     = $true;
+  #   'Wait'         = $true;
+  # }
+
+  # $process = Start-Process @startProcessArgs
+
+  # if ( $process.ExitCode -ne 0) {
+  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  #   exit 1
+  # }
 }
 
 Write-Host "$(Get-Date): Succeeded."
