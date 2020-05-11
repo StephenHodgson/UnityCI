@@ -73,7 +73,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
 Write-Host "Geting hub help..."
 
-$process =  $process = Start-Process -FilePath "`"$hubExe`"" -ArgumentList "-- headless help" -PassThru -Wait
+$process =  $process = Start-Process -FilePath "`"$hubExe`"" -ArgumentList "-- headless help" -PassThru
 
 if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
