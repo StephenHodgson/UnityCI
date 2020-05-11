@@ -63,7 +63,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   mdfind "kMDItemKind == 'Application'"
 
-  sudo /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help"
+  sudo /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
