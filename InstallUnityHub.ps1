@@ -9,7 +9,21 @@ Write-Host "$(Get-Date): Download Complete, Starting installation..."
 
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
-  cmd.exe /c "$outPath/UnityHubSetup.exe /S"
+
+  $startProcessArgs = @{
+    'FilePath'     = "$outPath/UnityHubSetup.exe";
+    'ArgumentList' = @("/S");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
+
+  $process = Start-Process @startProcessArgs
+
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
+
   Start-Process "C:\Program Files\Unity Hub\Unity Hub.exe" -ArgumentList "-- --headless help"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
@@ -29,21 +43,21 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host "Check if installed:" $existingApp
 
-  sudo cp -R "`"$dmgAppPath`"" "/Applications"
+  #sudo cp -R "`"$dmgAppPath`"" "/Applications"
   #sudo cp -R /Volumes/<image>\ <image>.app /Applications
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
+  $startProcessArgs = @{
+    'FilePath'     = 'sudo';
+    'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
 
-  # $process = Start-Process @startProcessArgs
+  $process = Start-Process @startProcessArgs
 
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
 
   $existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
 
