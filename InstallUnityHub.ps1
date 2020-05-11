@@ -26,7 +26,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    -command "`"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help"
+    `"C:\Program Files\Unity Hub\Unity Hub.exe`"-- --headless help
   }
   else
   {
@@ -46,24 +46,20 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host $dmgAppPath
 
-  $output = (sudo cp -R $dmgVolume $dmgAppPath /Applications)
-
-  Write-Host "Installation Result: $output"
-
   #sudo cp -R /Volumes/<image>\ <image>.app /Applications
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("cp", "-R", "`"$dmgAppPath`"", "/Applications");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
+  $startProcessArgs = @{
+    'FilePath'     = 'sudo';
+    'ArgumentList' = @("cp", "-R","$dmgVolume", "`"$dmgAppPath`"", "/Applications");
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
 
-  # $process = Start-Process @startProcessArgs
+  $process = Start-Process @startProcessArgs
 
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
 
   hdiutil unmount $dmgVolume
 
@@ -75,7 +71,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  #pwsh -noprofile -command "$outPath/UnityHub.AppImage-- --headless help"
+  `"$outPath/UnityHub.AppImage`"-- --headless help
 }
 
 Write-Host "$(Get-Date): Succeeded."
