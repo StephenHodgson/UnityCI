@@ -65,6 +65,13 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #./UnityHub.AppImage -- --headless help
 }
 
-Write-Host "Install Complete: $hubPath"
+Write-Host "Install Hub Complete: $hubPath"
 
+Write-Hose "Starting Editor Install..."
+. $hubPath -- --headless install --version 2019.1.14f1 --changeset 148b5891095a
+
+Write-Hose "Starting Editor Module Install..."
+. $hubPath -- --headless install --version 2019.1.14f1 -m windows
+
+Write-Hose "Starting Installed Editors:"
 . $hubPath -- --headless editors -i
