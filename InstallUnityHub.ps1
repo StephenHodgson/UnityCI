@@ -68,4 +68,4 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
 Write-Host "Install Complete: $hubPath"
 
-. $hubPath -- --headless help
+.$hubPath -- --headless help
