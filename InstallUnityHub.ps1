@@ -30,34 +30,38 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $wc.DownloadFile("$baseUrl/$package", $downloadPath)
 
   # sudo hdiutil attach <image>.dmg
-  $startProcessArgs = @{
-    'FilePath'     = 'sudo';
-    'ArgumentList' = @("hdiutil", "attach", $downloadPath, "-nobrowse");
-    'PassThru'     = $true;
-    'Wait'         = $true;
-  }
+  $dmgVolume = (sudo hdiutil attach $downloadPath -nobrowse) | Out-String
 
-  $process = Start-Process @startProcessArgs
+  Write-Host $dmgVolume
 
-  if ( $process.ExitCode -ne 0) {
-    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-    exit 1
-  }
+  # $startProcessArgs = @{
+  #   'FilePath'     = 'sudo';
+  #   'ArgumentList' = @("hdiutil", "attach", $downloadPath, "-nobrowse");
+  #   'PassThru'     = $true;
+  #   'Wait'         = $true;
+  # }
+
+  # $process = Start-Process @startProcessArgs
+
+  # if ( $process.ExitCode -ne 0) {
+  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  #   exit 1
+  # }
 
   # diskutil list
-  $startProcessArgs = @{
-    'FilePath'     = 'sudo';
-    'ArgumentList' = @("diskutil", "list");
-    'PassThru'     = $true;
-    'Wait'         = $true;
-  }
+  # $startProcessArgs = @{
+  #   'FilePath'     = 'sudo';
+  #   'ArgumentList' = @("diskutil", "list");
+  #   'PassThru'     = $true;
+  #   'Wait'         = $true;
+  # }
 
-  $process = Start-Process @startProcessArgs
+  # $process = Start-Process @startProcessArgs
 
-  if ( $process.ExitCode -ne 0) {
-    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-    exit 1
-  }
+  # if ( $process.ExitCode -ne 0) {
+  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  #   exit 1
+  # }
 
   #Select-String -Pattern "/Volumes/Unity Hub"
 
