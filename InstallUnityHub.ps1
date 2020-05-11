@@ -30,9 +30,9 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
     #"Unity Hub.exe" -- --headless help
 
-    $output = (pwsh -NoLogo -NonInteractive -NoProfile -Command "'C:\Program Files\Unity Hub\Unity Hub.exe -- --headless help'")
+    $output = (pwsh -NoLogo -NonInteractive -NoProfile -Command ". 'C:\Program Files\Unity Hub\Unity Hub.exe -- --headless help'")
     Write-Host $output
-    . "'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help"
+    . 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
   }
   else
   {
@@ -56,10 +56,10 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
 
-  $output = (pwsh -NoLogo -NonInteractive -NoProfile -Command "'/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help")
+  $output = (pwsh -NoLogo -NonInteractive -NoProfile -Command ". '/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help")
   Write-Host $output
 
-  . "'/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help'"
+  . '/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub' -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
@@ -69,10 +69,10 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   # Unity\ Hub.AppImage -- --headless help
 
-  $output = (pwsh -NoLogo -NonInteractive -NoProfile -Command "'Unity\ Hub.AppImage' -- --headless help")
+  $output = (pwsh -NoLogo -NonInteractive -NoProfile -Command ". 'Unity\ Hub.AppImage' -- --headless help")
   Write-Host $output
 
-  . "'Unity\ Hub.AppImage -- --headless help'"
+  . 'Unity\ Hub.AppImage' -- --headless help
 }
 
 Write-Host "Install Complete: $hubPath"
