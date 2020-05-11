@@ -27,7 +27,6 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    Write-Host "Install Complete"
     $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
 
     #"Unity Hub.exe" -- --headless help
@@ -56,8 +55,6 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   hdiutil unmount $dmgVolume
 
-  Write-Host "Install Complete"
-
   $hubPath = "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub"
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
@@ -73,9 +70,9 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #. 'Unity\ Hub.AppImage' -- --headless help
 }
 
-Write-Host "Install Complete" $hubPath.Path
+Write-Host "Install Complete $hubPath"
 Write-Host "Getting hub help..."
 
 $args = "--headless help"
 
-. `"$hubPath`" -- `"$args`"
+. `"$hubPath`" -- $args
