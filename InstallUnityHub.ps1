@@ -26,8 +26,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
 
   if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" )
   {
-    $output = (cmd /c "C:\Program Files\Unity Hub\Unity Hub.exe"-- --headless help)
-    Write-Output $output
+    cmd /c "C:\Program Files\Unity Hub\Unity Hub.exe"-- --headless help
   }
   else
   {
@@ -50,34 +49,20 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   sudo cp -rvf "`"$dmgAppPath`"" "/Applications"
 
-  # #sudo cp -R /Volumes/<image>\ <image>.app /Applications
-  # $startProcessArgs = @{
-  #   'FilePath'     = 'sudo';
-  #   'ArgumentList' = @("cp --verbose", "-rvf", "`"$dmgAppPath`"", "/Applications");
-  #   'PassThru'     = $true;
-  #   'Wait'         = $true;
-  # }
-
-  # $process = Start-Process @startProcessArgs
-
-  # if ( $process.ExitCode -ne 0) {
-  #   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-  #   exit 1
-  # }
-
   hdiutil unmount $dmgVolume
 
   mdfind "kMDItemKind == 'Application'"
 
-  #pwsh -noprofile -command "`"/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help`""
-  $output = (sudo "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub"-- --headless help)
+  # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub-- --headless help
+  $output = (-command "/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub"-- --headless help)
   Write-Output $output
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod +x "$outPath/UnityHub.AppImage"
-  $output = (sudo "$outPath/UnityHub.AppImage"-- --headless help)
+  # Unity\ Hub.AppImage -- --headless help
+  $output = (-command "$outPath/UnityHub.AppImage"-- --headless help)
   Write-Output $output
 }
 
