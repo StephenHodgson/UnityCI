@@ -41,9 +41,9 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   Write-Host $dmgAppPath
 
-  $existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
+  #$existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
 
-  Write-Host "Check if installed:" $existingApp
+  #Write-Host "Check if installed:" $existingApp
 
   #sudo cp -R /Volumes/<image>\ <image>.app /Applications
   $startProcessArgs = @{
@@ -60,9 +60,11 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
     exit 1
   }
 
+  Write-Host "Verifying install..."
+
   $existingApp = (find "/Applications/" -name "$dmgAppPath" -depth 1)
 
-  Write-Host "Veify Installed:" $existingApp
+  Write-Host "Hub Intsalled to:" $existingApp
 
   hdiutil unmount $dmgVolume
 
