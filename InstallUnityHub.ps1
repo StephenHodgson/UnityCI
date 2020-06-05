@@ -68,7 +68,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 
 Write-Host "Starting Editor Install..."
-. $hubPath -- --headless install --version 2019.1.14f1 --changeset  -wait
+. $hubPath -- --headless install --version 2019.1.14f1 --changeset -wait
 
 Write-Host "Starting Editor Module Install..."
 . $hubPath -- --headless install --version 2019.1.14f1 -m windows -wait
