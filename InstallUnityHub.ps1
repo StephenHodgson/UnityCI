@@ -60,7 +60,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo chmod -v a+x "$outPath/UnityHub.AppImage"
 
   # Unity\ Hub.AppImage -- --headless help
-  $hubPath = "$outPath/UnityHub.AppImage"
+  $hubPath = "./$outPath/UnityHub.AppImage"
 
   #./UnityHub.AppImage -- --headless help
 }
