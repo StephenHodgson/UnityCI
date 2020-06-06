@@ -62,7 +62,6 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Unity\ Hub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
 
-  cd $hubPath
   ./UnityHub.AppImage -- --headless help
 }
 
