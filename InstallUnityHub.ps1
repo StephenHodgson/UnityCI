@@ -57,7 +57,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  sudo chmod +x "$outPath/UnityHub.AppImage"
+  sudo chmod u+x "$outPath/UnityHub.AppImage"
 
   # Unity\ Hub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
@@ -71,7 +71,10 @@ Write-Host "Unity HUB CLI Options:"
 Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -NoNewWindow -PassThru -Wait
 
 Write-Host "Starting Editor Install..."
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a -m windows" -NoNewWindow -PassThru -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -NoNewWindow -PassThru -Wait
+
+Write-Host "Starting Editor Modules..."
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m winodws -m android -m android-sdk-ndk-tools" -NoNewWindow -PassThru -Wait
 
 Write-Host "Starting Installed Editors:"
 Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -NoNewWindow -PassThru -Wait
