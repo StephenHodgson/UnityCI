@@ -80,7 +80,7 @@ $p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -Verbos
 Write-Host ""
 $p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -Verbose -NoNewWindow -PassThru -Wait
 Write-Host ""
-$p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors" -i -Verbose -NoNewWindow -PassThru -Wait
+$p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -Verbose -NoNewWindow -PassThru -Wait
 
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 
