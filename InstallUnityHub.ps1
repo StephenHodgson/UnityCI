@@ -68,7 +68,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   ./UnityHub.AppImage
 
   # Test inline calls
-  bash $hubPath -- --headless help
+  bash -c "$hubPath -- --headless help"
 }
 
 Write-Host "Install Hub Complete: $hubPath"
