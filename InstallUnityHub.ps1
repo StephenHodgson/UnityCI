@@ -78,3 +78,5 @@ Write-Host "Starting Editor Module Install..."
 
 Write-Host "Starting Installed Editors:"
 . $hubPath "-- --headless editors -i" -PassThru -Wait
+
+exit 0
