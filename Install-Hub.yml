@@ -18,7 +18,7 @@ stages:
           #arguments: # Optional
           #script: '# Write your PowerShell commands here.Write-Host Hello World' # Required when targetType == Inline
           errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
-          failOnStderr: true # Optional
+          failOnStderr: false # Optional
           #ignoreLASTEXITCODE: false # Optional
           pwsh: true # Optional
           #workingDirectory: # Optional
