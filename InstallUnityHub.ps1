@@ -68,18 +68,18 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -PassThru -Wait
 Write-Host ""
 Write-Host "Starting Editor Install..."
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -PassThru -Wait
 Write-Host ""
 Write-Host "Starting Installed Editors:"
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -PassThru -Wait
 
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 Write-Host ""
 Write-Host "Starting Editor Modules..."
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m windows-il2cpp -m universal-windows-platform -m android -m android-sdk-ndk-tools -m webgl" -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m windows-il2cpp -m universal-windows-platform -m android -m android-sdk-ndk-tools -m webgl" -PassThru -Wait
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
