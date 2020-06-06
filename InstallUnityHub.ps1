@@ -76,7 +76,7 @@ Write-Host "Starting Editor Install..."
 Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Starting Installed Editors:"
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -NoNewWindow -PassThru -Wait
 
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 Write-Host ""
