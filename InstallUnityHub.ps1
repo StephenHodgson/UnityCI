@@ -68,12 +68,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 
 Write-Host "Unity HUB CLI Options:"
-Start-Process -FilePath $hubPath -ArguementList "-- --headless help" -NoNewWindow -PassThru -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -NoNewWindow -PassThru -Wait
 
 Write-Host "Starting Editor Install..."
-Start-Process -FilePath $hubPath -ArguementList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a -m windows" -NoNewWindow -PassThru -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a -m windows" -NoNewWindow -PassThru -Wait
 
 Write-Host "Starting Installed Editors:"
-Start-Process -FilePath $hubPath -ArguementList "-- --headless editors -i" -NoNewWindow -PassThru -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -NoNewWindow -PassThru -Wait
 
 exit 0
