@@ -76,9 +76,7 @@ Write-Host "Starting Editor Install..."
 Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Starting Installed Editors:"
-$output = Get-ProcessOutput -FilePath $hubPath -ArgumentList "-- --headless editors -i" -Wait
-Write-Host -ForegroundColor green $output.StandardOutput
-Write-Host -ForegroundColor red $output.StandardError
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -Wait
 
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 Write-Host ""
@@ -87,27 +85,3 @@ Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
-
-function Get-ProcessOutput
-{
-    Param (
-        [Parameter(Mandatory=$true)]$FileName,
-        $Args
-    )
-
-    $process = New-Object System.Diagnostics.Process
-    $process.StartInfo.UseShellExecute = $false
-    $process.StartInfo.RedirectStandardOutput = $true
-    $process.StartInfo.RedirectStandardError = $true
-    $process.StartInfo.FileName = $FileName
-    if($Args) { $process.StartInfo.Arguments = $Args }
-    $out = $process.Start()
-
-    $StandardError = $process.StandardError.ReadToEnd()
-    $StandardOutput = $process.StandardOutput.ReadToEnd()
-
-    $output = New-Object PSObject
-    $output | Add-Member -type NoteProperty -name StandardOutput -Value $StandardOutput
-    $output | Add-Member -type NoteProperty -name StandardError -Value $StandardError
-    return $output
-}
