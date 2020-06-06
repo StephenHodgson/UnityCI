@@ -45,7 +45,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   Write-Host $dmgVolume
   $dmgAppPath = (find "$DMGVolume" -name "*.app" -depth 1)
   Write-Host $dmgAppPath
-  sudo cp -rvf "`"$dmgAppPath`"" "/Applications"
+  sudo cp -rf "`"$dmgAppPath`"" "/Applications"
   hdiutil unmount $dmgVolume
 
   #mdfind "kMDItemKind == 'Application'"
@@ -57,7 +57,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  sudo chmod -v +x "$outPath/UnityHub.AppImage"
+  sudo chmod -v a+x "$outPath/UnityHub.AppImage"
 
   # Unity\ Hub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
@@ -68,19 +68,19 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -NoNewWindow -PassThru -Wait
+$p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -Verbose -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Starting Editor Install..."
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -NoNewWindow -PassThru -Wait
+$p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -Verbose -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Starting Installed Editors:"
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -NoNewWindow -PassThru -Wait
+$p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -Verbose -NoNewWindow -PassThru -Wait
 
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 
 Write-Host ""
 Write-Host "Starting Editor Modules..."
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m windows-il2cpp -m universal-windows-platform -m android -m android-sdk-ndk-tools" -NoNewWindow -PassThru -Wait
+$p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m windows-il2cpp -m universal-windows-platform -m android -m android-sdk-ndk-tools" -Verbose -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
