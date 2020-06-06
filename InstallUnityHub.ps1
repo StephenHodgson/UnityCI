@@ -57,10 +57,10 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  sudo chmod -v a+x "$outPath/UnityHub.AppImage"
+  sudo chmod -v a+x ".$outPath/UnityHub.AppImage"
 
   # Unity\ Hub.AppImage -- --headless help
-  $hubPath = ".$outPath/UnityHub.AppImage"
+  $hubPath = "$outPath/UnityHub.AppImage"
 
   #./UnityHub.AppImage -- --headless help
 }
@@ -77,7 +77,7 @@ $p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 
 Write-Host ""
-$p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m windows-il2cpp -m universal-windows-platform -m android -m android-sdk-ndk-tools" -Verbose -NoNewWindow -PassThru -Wait
+#$p = Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m windows-il2cpp -m universal-windows-platform -m android -m android-sdk-ndk-tools" -Verbose -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
