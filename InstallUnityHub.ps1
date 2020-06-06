@@ -64,7 +64,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Unity\ Hub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
 
-  sudo ./UnityHub.AppImage -eux --no-sandbox
+  # Accept License
+  ./UnityHub.AppImage
+
+  # Test inline calls
+
+  ./UnityHub.AppImage -- '--headless help'
 }
 
 Write-Host "Install Hub Complete: $hubPath"
