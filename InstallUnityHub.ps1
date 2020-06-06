@@ -57,7 +57,9 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  sudo chmod u+x "$outPath/UnityHub.AppImage"
+  sudo chmod +x "$outPath/UnityHub.AppImage"
+
+  ./UnityHubSetup
 
   # Unity\ Hub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
@@ -68,18 +70,44 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -PassThru -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless help" -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Starting Editor Install..."
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -PassThru -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Starting Installed Editors:"
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless editors -i" -PassThru -Wait
+$output = Get-ProcessOutput -FilePath $hubPath -ArgumentList "-- --headless editors -i" -Wait
+Write-Host -ForegroundColor green $output.StandardOutput
+Write-Host -ForegroundColor red $output.StandardError
 
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 Write-Host ""
 Write-Host "Starting Editor Modules..."
-Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m windows-il2cpp -m universal-windows-platform -m android -m android-sdk-ndk-tools -m webgl" -PassThru -Wait
+Start-Process -FilePath $hubPath -ArgumentList "-- --headless im --version 2019.1.14f1 -m windows-il2cpp -m universal-windows-platform -m android -m android-open-jdk -m android-sdk-ndk-tools -m webgl" -NoNewWindow -PassThru -Wait
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
+
+function Get-ProcessOutput
+{
+    Param (
+        [Parameter(Mandatory=$true)]$FileName,
+        $Args
+    )
+
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo.UseShellExecute = $false
+    $process.StartInfo.RedirectStandardOutput = $true
+    $process.StartInfo.RedirectStandardError = $true
+    $process.StartInfo.FileName = $FileName
+    if($Args) { $process.StartInfo.Arguments = $Args }
+    $out = $process.Start()
+
+    $StandardError = $process.StandardError.ReadToEnd()
+    $StandardOutput = $process.StandardOutput.ReadToEnd()
+
+    $output = New-Object PSObject
+    $output | Add-Member -type NoteProperty -name StandardOutput -Value $StandardOutput
+    $output | Add-Member -type NoteProperty -name StandardError -Value $StandardError
+    return $output
+}
