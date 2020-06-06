@@ -68,28 +68,28 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 
 Write-Host "Unity HUB CLI Options:"
-$process = Start-Process $hubPath "-- --headless help" -Wait
+$process = Start-Process $hubPath "-- --headless help" -PassThru -Wait
 if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
   exit 1
 }
 
 Write-Host "Starting Editor Install..."
-$process = Start-Process $hubPath "-- --headless install --version 2019.1.14f1 --changeset" -Wait
+$process = Start-Process $hubPath "-- --headless install --version 2019.1.14f1 --changeset" -PassThru -Wait
 if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
   exit 1
 }
 
 Write-Host "Starting Editor Module Install..."
-$process = Start-Process $hubPath "-- --headless install --version 2019.1.14f1 -m windows" -Wait
+$process = Start-Process $hubPath "-- --headless install --version 2019.1.14f1 -m windows" -PassThru -Wait
 if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
   exit 1
 }
 
 Write-Host "Starting Installed Editors:"
-$process = Start-Process $hubPath "-- --headless editors -i" -Wait
+$process = Start-Process $hubPath "-- --headless editors -i" -PassThru -Wait
 if ( $process.ExitCode -ne 0) {
   Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
   exit 1
