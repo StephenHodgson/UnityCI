@@ -57,7 +57,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  sudo chmod u+x "$outPath/UnityHub.AppImage"
+  sudo chmod +x "$outPath/UnityHub.AppImage"
 
   # Unity\ Hub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
@@ -67,11 +67,34 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
 Write-Host "Install Hub Complete: $hubPath"
 
+Write-Host "Unity HUB CLI Options:"
+$process = Start-Process $hubPath "-- --headless help"
+$process.WaitForExit();
+if ( $process.ExitCode -ne 0) {
+  Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  exit 1
+}
+
 Write-Host "Starting Editor Install..."
-. $hubPath -- --headless install --version 2019.1.14f1 --changeset -wait
+$process = Start-Process $hubPath "-- --headless install --version 2019.1.14f1 --changeset"
+$process.WaitForExit();
+if ( $process.ExitCode -ne 0) {
+  Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  exit 1
+}
 
 Write-Host "Starting Editor Module Install..."
-. $hubPath -- --headless install --version 2019.1.14f1 -m windows -wait
+$process = Start-Process $hubPath "-- --headless install --version 2019.1.14f1 -m windows"
+$process.WaitForExit();
+if ( $process.ExitCode -ne 0) {
+  Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  exit 1
+}
 
 Write-Host "Starting Installed Editors:"
-. $hubPath -- --headless editors -i
+$process = Start-Process $hubPath "-- --headless editors -i"
+$process.WaitForExit();
+if ( $process.ExitCode -ne 0) {
+  Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+  exit 1
+}
