@@ -67,6 +67,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Accept License
   ./UnityHub.AppImage
 
+  file ./UnityHub.AppImage
+
   # Test inline calls
   bash -c "$hubPath -- --headless help"
 }
