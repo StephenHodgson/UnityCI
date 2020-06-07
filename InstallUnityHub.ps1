@@ -20,6 +20,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     'Wait'         = $true;
   }
 
+  # Run Installer
   $process = Start-Process @startProcessArgs
 
   if ( $process.ExitCode -ne 0) {
@@ -54,8 +55,6 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   sudo cp -rf "`"$dmgAppPath`"" "/Applications"
   hdiutil unmount $dmgVolume
 
-  #mdfind "kMDItemKind == 'Application'"
-
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $EditorRoot = "/Applications/Unity/Hub/Editor/"
@@ -75,16 +74,6 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   # Accept License
   ./UnityHub.AppImage
-
-  @'
-#!/bin/sh
-clear
-echo "Try headless help from sh"
-./UnityHub.AppImage -- --headless help
-'@ > unityCli; chmod a+x unityCli
-
-Invoke-ExternalCommand -Command ./UnityHub.AppImage -Arguments '--','--headless','help'
-
 }
 
 Write-Host "Install Hub Complete: $hubPath"
@@ -99,9 +88,22 @@ Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'editors', '-i'
 Write-Host "Success? "$p.ExitCode
 
-if ( Test-Path "$EditorRoot$UnityVersion" )
+$modulesPath = "$EditorRoot$UnityVersion"
+
+if ( Test-Path $modulesPath )
 {
-  #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
+  $modulesPath = '{0}{1}{2}{3}modules.json' -f $modulesPath,[IO.Path]::PathSeparator,$UnityVersion,[IO.Path]::PathSeparator
+
+  if( Test-Path $modulesPath )
+  {
+    Write-Host $moduesPath
+    #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
+  }
+  else
+  {
+    Write-Error "Failed to resolve modules path at $modulesPath"
+    exit 1
+  }
 } else
 {
   Write-Error "Failed to resolve editor installation path at $EditorRoot$UnityVersion"
