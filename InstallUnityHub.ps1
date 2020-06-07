@@ -67,7 +67,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   file ./UnityHub.AppImage
 
   # Accept License
-  ./UnityHub.AppImage
+  ./UnityHub.AppImage --version
 
   ./UnityHub.AppImage -- --headless help
 }
