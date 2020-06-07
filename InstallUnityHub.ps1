@@ -57,15 +57,19 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  chmod -v +x "$outPath/UnityHub.AppImage"
+  cd $outPath
+
+  chmod -v +x UnityHub.AppImage
+
   # UnityHub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
-  cd $outPath
 
   file ./UnityHub.AppImage
 
   # Accept License
   ./UnityHub.AppImage
+
+  ~/.config/UnityHub/logs/info-log.json
 }
 
 Write-Host "Install Hub Complete: $hubPath"
