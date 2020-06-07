@@ -77,6 +77,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Accept License
   ./UnityHub.AppImage
 
+  Invoke-ExternalCommand -Command ./UnityHub.AppImage -Arguments '--','--headless','help'
+
   @'
 #!/bin/sh
 clear
