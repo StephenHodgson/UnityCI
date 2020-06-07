@@ -101,11 +101,8 @@ if ( Test-Path $modulesPath )
     Write-Host "Modules Manifest: " $modulesPath
 
     Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach {
-      Write-Host $_.id
-
       if( ($_.category -eq 'Platforms') -and ($_.visible -eq $true) )
       {
-        Write-Host $_.id " isSelected " $_.selected
         $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList @('--','--headless','im',"--version $UnityVersion",'-m',$_.id)
         Write-Host ""
         Write-Host "Success? " ($p.ExitCode -eq 0)
