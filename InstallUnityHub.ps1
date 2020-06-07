@@ -102,8 +102,7 @@ if ( Test-Path $modulesPath )
   {
     Write-Host "Modules Manifest: " $modulesPath
 
-    Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | Select-Object -Property id,name,visible | ForEach-Object
-    {
+    $moduleJson = Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach {
       Write-Host $_.name $_.id $_.visible
     }
   } else
