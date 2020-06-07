@@ -71,11 +71,9 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $startProcessArgs = @{
     'FilePath'     = "./UnityHub.AppImage";
     'ArgumentList' = @('--', '--headless', 'help');
-    'PassThru'     = $true;
-    'Wait'         = $true;
   }
 
-  $process = Start-Process @startProcessArgs
+  $process = Start-Process @startProcessArgs -Verbose -NoNewWindow -PassThru -Wait
 
   if ( $process.ExitCode -ne 0) {
     Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
