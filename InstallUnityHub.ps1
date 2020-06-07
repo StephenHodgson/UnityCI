@@ -67,8 +67,6 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   # Accept License
   ./UnityHub.AppImage
-
-  ./UnityHub.AppImage/RunApp -- --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
@@ -83,7 +81,7 @@ $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -A
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', '--version 2019.1.14f1', '-m', 'windows-il2cpp', 'universal-windows-platform', 'android', 'android-sdk-ndk-tools'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', '--version 2019.1.14f1', '-m', 'windows-il2cpp', '-m', 'universal-windows-platform', '-m', 'android','-m', 'android-sdk-ndk-tools'
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
