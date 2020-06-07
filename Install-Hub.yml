@@ -25,9 +25,7 @@ stages:
           #ignoreLASTEXITCODE: false # Optional
           pwsh: true # Optional
           #workingDirectory: # Optional
-      - script: |
-          #!/bin/sh
-          clear
+      - bash: |
           echo "Try headless help from sh"
           ./UnityHub.AppImage -- --headless help
         condition: always()
