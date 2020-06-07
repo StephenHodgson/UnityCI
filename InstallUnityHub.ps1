@@ -100,9 +100,9 @@ if ( Test-Path $modulesPath )
   {
     Write-Host "Modules Manifest: " $modulesPath
 
-    $moduleJson = Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach
+    Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach {
     {
-      Write-Host "Found " $_.name
+      Write-Host $_.id
 
       # if( ($_.category -eq 'Platforms') -and ($_.visible -eq $true) )
       # {
