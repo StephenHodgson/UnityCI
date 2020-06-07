@@ -77,16 +77,16 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','help')
 Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', "--version $UnityVersion", "--changeset $UnityVersionChangeSet"
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','install',"--version $UnityVersion","--changeset $UnityVersionChangeSet")
 Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'editors', '-i'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','editors','-i')
 Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
