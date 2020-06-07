@@ -101,7 +101,11 @@ if ( Test-Path $modulesPath )
   if( Test-Path $modulesPath )
   {
     Write-Host "Modules Manifest: " $modulesPath
-    #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
+
+    Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | Select-Object -Property id,name,visible | ForEach-Object
+    {
+      Write-Host $_.name $_.id $_.visible
+    }
   } else
   {
     Write-Error "Failed to resolve modules path at $modulesPath"
