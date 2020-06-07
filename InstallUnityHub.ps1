@@ -74,7 +74,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath \""$hubPath\"" -ArgumentList '--', '\"--headless help\"'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '\"--headless help\"'
 Write-Host ""
 $p = Start-Process -FilePath "$hubPath" -ArgumentList "-- --headless install --version 2019.1.14f1 --changeset 148b5891095a" -Verbose -NoNewWindow -PassThru -Wait
 Write-Host ""
