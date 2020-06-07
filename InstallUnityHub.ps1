@@ -80,13 +80,16 @@ Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
+Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', "--version $UnityVersion", "--changeset $UnityVersionChangeSet"
+Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'editors', '-i'
+Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
 $modulesPath = "$EditorRoot$UnityVersion"
@@ -97,10 +100,9 @@ if ( Test-Path $modulesPath )
 
   if( Test-Path $modulesPath )
   {
-    Write-Host $moduesPath
+    Write-Host "Modules Manifest: " $moduesPath
     #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
-  }
-  else
+  } else
   {
     Write-Error "Failed to resolve modules path at $modulesPath"
     exit 1
@@ -115,6 +117,7 @@ exit 0 #Temp Return Until work below is completed
 
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', "--version $UnityVersion", '-m', 'windows-il2cpp', '-m', 'universal-windows-platform', '-m', 'android','-m', 'android-sdk-ndk-tools'
+Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 Write-Host ""
 Write-Host "Install Complete!"
