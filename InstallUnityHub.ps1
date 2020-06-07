@@ -1,3 +1,4 @@
+Install-Module -Name ExternalCommand
 Write-Host "$(Get-Date): Downloading Unity Hub..."
 
 $baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
@@ -77,7 +78,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Accept License
   ./UnityHub.AppImage
 
-  . ./UnityHub.AppImage --% -- --headless help
+  Invoke-ExternalCommand -Command ./UnityHub.AppImage -Arguments --,--headless,help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
