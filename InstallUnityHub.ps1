@@ -76,7 +76,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Accept License
   ./UnityHub.AppImage
 
-  Invoke-Command ./Install-Hub.sh
+  Start-Process -Wait -NoNewWindow pwsh.exe -ArgumentList '-noprofile', '-file', "`"./UnityHub.AppImage -- --headless help`""
 }
 
 Write-Host "Install Hub Complete: $hubPath"
