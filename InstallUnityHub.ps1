@@ -102,8 +102,14 @@ if ( Test-Path $modulesPath )
   {
     Write-Host "Modules Manifest: " $modulesPath
 
-    $moduleJson = Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach {
-      Write-Host " name " $_.name " | id " $_.id " | visible " $_.visible " | selected " $_.selected
+    $moduleJson = Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach
+    {
+      Write-Host "Found " $_.name
+
+      if( ($_.category eq 'Platforms') -and ($_.visible eq $true) )
+      {
+        Write-Host $_.id " isSelected " $_.selected
+      }
     }
   } else
   {
