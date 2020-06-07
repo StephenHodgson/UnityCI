@@ -80,7 +80,6 @@ Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
-exit 0 #For now let's just make sure the installation completes
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', "--version $UnityVersion", "--changeset $UnityVersionChangeSet"
 Write-Host "Success? " ($p.ExitCode -eq 0)
@@ -109,6 +108,8 @@ if ( Test-Path $modulesPath )
   Write-Error "Failed to resolve editor installation path at $EditorRoot$UnityVersion"
   exit 1
 }
+
+exit 0 #Temp Return Until work below is completed
 
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', "--version $UnityVersion", '-m', 'windows-il2cpp', '-m', 'universal-windows-platform', '-m', 'android','-m', 'android-sdk-ndk-tools'
