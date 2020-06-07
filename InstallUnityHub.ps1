@@ -78,15 +78,15 @@ Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
-Write-Host "Success? "$p.ExitCode
+Write-Host "Success? " $p.ExitCode -eq 0
 
 exit 0 #For now let's just make sure the installation completes
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', "--version $UnityVersion", "--changeset $UnityVersionChangeSet"
-Write-Host "Success? "$p.ExitCode
+Write-Host "Success? " $p.ExitCode -eq 0
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'editors', '-i'
-Write-Host "Success? "$p.ExitCode
+Write-Host "Success? " $p.ExitCode -eq 0
 
 $modulesPath = "$EditorRoot$UnityVersion"
 
@@ -112,7 +112,7 @@ if ( Test-Path $modulesPath )
 
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', "--version $UnityVersion", '-m', 'windows-il2cpp', '-m', 'universal-windows-platform', '-m', 'android','-m', 'android-sdk-ndk-tools'
-Write-Host "Success? "$p.ExitCode
+Write-Host "Success? " $p.ExitCode -eq 0
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
