@@ -8,7 +8,6 @@ $wc = New-Object System.Net.WebClient
 Write-Host "$(Get-Date): Download Complete, Starting installation..."
 
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
-  exit 0
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
 
   $startProcessArgs = @{
@@ -38,7 +37,6 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
-  exit 0
   $package = "UnityHubSetup.dmg"
   $downloadPath = "$outPath/$package"
   $wc.DownloadFile("$baseUrl/$package", $downloadPath)
@@ -59,20 +57,20 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  sudo chmod -v a+x "$outPath/UnityHub.AppImage"
-
+  chmod -v +x "$outPath/UnityHub.AppImage"
   # UnityHub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
+  sudo apt install libgconf-2-4
+
+  cd $outPath -v
 
   # Accept License
-  sudo ./UnityHub.AppImage
+  sudo './UnityHub.AppImage'
 
   file ./UnityHub.AppImage
 
   # Test inline calls
-  sudo ./UnityHub.AppImage '--', '--headless help'
-
-  ./Unity
+  './UnityHub.AppImage' -- '--headless help'
 }
 
 Write-Host "Install Hub Complete: $hubPath"
