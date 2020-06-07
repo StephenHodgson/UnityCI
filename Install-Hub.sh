@@ -1,5 +1,11 @@
 #!/bin/bash
 echo "Installing dependancies..."
+apt get zenity
+apt get fuse
+apt get xdg-utils
+apt get desktop-file-utils
+apt get xvfb
+apt get libdbus-glib-1-2
 
 echo "Installing unity hub..."
 wget https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage
