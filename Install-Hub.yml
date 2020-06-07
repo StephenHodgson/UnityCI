@@ -28,3 +28,4 @@ stages:
       - task: ShellScript@2
         inputs:
           scriptPath: Install-Hub.sh
+        condition: ${{ eq('ubuntu-16.04', parameters.image) }}

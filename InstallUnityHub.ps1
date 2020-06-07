@@ -66,7 +66,6 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   cd $outPath
   sudo chmod -v a+x UnityHub.AppImage
-  sudo chmod -v a+x ./Install-Hub.sh
 
   # UnityHub.AppImage -- --headless help
   $hubPath = "./UnityHub.AppImage"
@@ -77,24 +76,28 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Accept License
   ./UnityHub.AppImage
 
-  Invoke-ExternalCommand -Command ./UnityHub.AppImage -Arguments '--','--headless','help'
-
   @'
 #!/bin/sh
 clear
 echo "Try headless help from sh"
 ./UnityHub.AppImage -- --headless help
 '@ > unityCli; chmod a+x unityCli
+
+Invoke-ExternalCommand -Command ./UnityHub.AppImage -Arguments '--','--headless','help'
+
 }
 
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
+Write-Host "Success? "$p.ExitCode
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', "--version $UnityVersion", "--changeset $UnityVersionChangeSet"
+Write-Host "Success? "$p.ExitCode
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'editors', '-i'
+Write-Host "Success? "$p.ExitCode
 
 if ( Test-Path "$EditorRoot$UnityVersion" )
 {
@@ -107,6 +110,7 @@ if ( Test-Path "$EditorRoot$UnityVersion" )
 
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', "--version $UnityVersion", '-m', 'windows-il2cpp', '-m', 'universal-windows-platform', '-m', 'android','-m', 'android-sdk-ndk-tools'
+Write-Host "Success? "$p.ExitCode
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
