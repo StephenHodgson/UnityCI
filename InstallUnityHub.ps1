@@ -11,7 +11,6 @@ $wc = New-Object System.Net.WebClient
 Write-Host "$(Get-Date): Download Complete, Starting installation..."
 
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
-  exit 0
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
   $startProcessArgs = @{
     'FilePath'     = "$outPath/UnityHubSetup.exe";
@@ -43,7 +42,6 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   $EditorRoot = "C:\Program Files\Unity\Hub\Editor\"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
-  exit 0
   $package = "UnityHubSetup.dmg"
   $downloadPath = "$outPath/$package"
   $wc.DownloadFile("$baseUrl/$package", $downloadPath)
@@ -81,6 +79,8 @@ Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
 Write-Host "Success? "$p.ExitCode
+
+exit 0 #For now let's just make sure the installation completes
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', "--version $UnityVersion", "--changeset $UnityVersionChangeSet"
 Write-Host "Success? "$p.ExitCode
