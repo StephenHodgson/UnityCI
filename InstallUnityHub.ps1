@@ -91,7 +91,7 @@ $modulesPath = "$EditorRoot$UnityVersion"
 
 if ( Test-Path $modulesPath )
 {
-  $modulesPath = '{0}{1}{2}{3}modules.json' -f $modulesPath,[IO.Path]::PathSeparator,$UnityVersion,[IO.Path]::PathSeparator
+  $modulesPath = '{0}modules.json' -f [IO.Path]::DirectorySeparatorChar
 
   if( Test-Path $modulesPath )
   {
