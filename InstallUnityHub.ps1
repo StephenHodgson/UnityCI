@@ -65,6 +65,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   sudo chmod -v a+x UnityHub.AppImage
+  sudo chmod -v a+x ./Install-Hub.sh
 
   # UnityHub.AppImage -- --headless help
   $hubPath = "./UnityHub.AppImage"
