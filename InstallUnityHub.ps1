@@ -58,8 +58,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   cd $outPath
-  $env:GIT_REDIRECT_STDERR = '2>&1'
-  sudo chmod -v +x UnityHub.AppImage
+  sudo chmod -v +x UnityHub.AppImage 2>&1
 
   # UnityHub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
@@ -67,15 +66,15 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   file ./UnityHub.AppImage
 
   # Accept License
-  ./UnityHub.AppImage --version
+  ./UnityHub.AppImage --version 2>&1
 
-  ./UnityHub.AppImage -- --headless help
+  ./UnityHub.AppImage -- --headless help 2>&1
 }
 
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless help'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless install --version 2019.1.14f1 --changeset 148b5891095a'
 Write-Host ""
