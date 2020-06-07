@@ -103,7 +103,7 @@ if ( Test-Path $modulesPath )
     Write-Host "Modules Manifest: " $modulesPath
 
     $moduleJson = Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach {
-      Write-Host $_.name $_.id $_.visible
+      Write-Host " name " $_.name " | id " $_.id " | visible " $_.visible " | selected " $_.selected
     }
   } else
   {
