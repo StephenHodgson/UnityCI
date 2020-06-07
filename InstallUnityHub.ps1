@@ -2,6 +2,9 @@ Write-Host "$(Get-Date): Downloading Unity Hub..."
 
 $baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
 $outPath = $PSScriptRoot
+$EditorRoot = ""
+$UnityVersion = "2019.1.14f1"
+$UnityVersionChangeSet = "148b5891095a"
 
 $wc = New-Object System.Net.WebClient
 
@@ -35,6 +38,8 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     Write-Error "Unity Hub.exe path not found!"
     exit 1
   }
+
+  $EditorRoot = "C:\Program Files\Unity\Hub\Editor\"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -52,6 +57,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
+  $EditorRoot = "/Applications/Unity/Hub/Editor/"
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
@@ -62,23 +68,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   # UnityHub.AppImage -- --headless help
   $hubPath = "UnityHub.AppImage"
+  $EditorRoot = "~/Unity/Hub/Editor/"
 
   file ./UnityHub.AppImage
 
   # Accept License
   ./UnityHub.AppImage
-
-  $startProcessArgs = @{
-    'FilePath'     = "./UnityHub.AppImage";
-    'ArgumentList' = @('--', '--headless', 'help');
-  }
-
-  $process = Start-Process @startProcessArgs -Verbose -NoNewWindow -PassThru -Wait
-
-  if ( $process.ExitCode -ne 0) {
-    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
-    exit 1
-  }
 }
 
 Write-Host "Install Hub Complete: $hubPath"
@@ -86,14 +81,21 @@ Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', '--version 2019.1.14f1', '--changeset 148b5891095a'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', "--version $UnityVersion", "--changeset $UnityVersionChangeSet"
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'editors', '-i'
 
-#TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
+if ( Test-Path "$EditorRoot$UnityVersion" )
+{
+  #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
+} else
+{
+  Write-Error "Failed to resolve editor installation path at $EditorRoot$UnityVersion"
+  exit 1
+}
 
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', '--version 2019.1.14f1', '-m', 'windows-il2cpp', '-m', 'universal-windows-platform', '-m', 'android','-m', 'android-sdk-ndk-tools'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', "--version $UnityVersion", '-m', 'windows-il2cpp', '-m', 'universal-windows-platform', '-m', 'android','-m', 'android-sdk-ndk-tools'
 Write-Host ""
 Write-Host "Install Complete!"
 exit 0
