@@ -10,6 +10,8 @@ stages:
         name: 'Azure Pipelines'
         vmImage: ${{ parameters.image }}
       steps:
+      - powershell: |
+          Install-Module -Name ExternalCommand
       - task: PowerShell@2
         condition: always()
         inputs:
