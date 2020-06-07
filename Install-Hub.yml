@@ -12,6 +12,7 @@ stages:
       steps:
       - powershell: |
           Install-Module -Name ExternalCommand -Scope CurrentUser -Repository PSGallery -Force
+        displayName: 'Install ExternalCommand PS Module'
       - task: PowerShell@2
         condition: always()
         inputs:

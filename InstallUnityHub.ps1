@@ -77,7 +77,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Accept License
   ./UnityHub.AppImage
 
-  Invoke-ExternalCommand -Command ./UnityHub.AppImage -Arguments '--','--headless','help'
+  @'
+#!/bin/sh
+clear
+echo "Try headless help from sh"
+./UnityHub.AppImage -- --headless help
+'@ > unityCli; chmod a+x unityCli
 }
 
 Write-Host "Install Hub Complete: $hubPath"
