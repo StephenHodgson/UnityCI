@@ -66,13 +66,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   file ./UnityHub.AppImage
 
   # Accept License
-  bash ./UnityHub.AppImage --version 2>&1
+  bash ./UnityHub.AppImage 2>&1
 
   bash ./UnityHub.AppImage -- --headless help 2>&1
 }
 
 Write-Host "Install Hub Complete: $hubPath"
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--version'
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
