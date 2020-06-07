@@ -76,7 +76,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # Accept License
   ./UnityHub.AppImage
 
-  ./Install-Hub.sh
+  Invoke-Exec -Executable ./UnityHub.AppImage -Arguments '--','--headless', 'help'
 }
 
 Write-Host "Install Hub Complete: $hubPath"
