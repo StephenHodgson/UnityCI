@@ -61,14 +61,14 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo chmod -v a+x UnityHub.AppImage
 
   # UnityHub.AppImage -- --headless help
-  $hubPath = "$outPath/UnityHub.AppImage"
+  $hubPath = "UnityHub.AppImage"
 
   file ./UnityHub.AppImage
 
   # Accept License
   ./UnityHub.AppImage 2>&1
 
-  bash ./UnityHub.AppImage -- --headless help 2>&1
+  ./UnityHub.AppImage -- --headless help 2>&1
 }
 
 Write-Host "Install Hub Complete: $hubPath"
