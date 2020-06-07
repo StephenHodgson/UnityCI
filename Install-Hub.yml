@@ -25,7 +25,6 @@ stages:
           #ignoreLASTEXITCODE: false # Optional
           pwsh: true # Optional
           #workingDirectory: # Optional
-      - bash: |
-          echo "Try headless help from sh"
-          ./UnityHub.AppImage -- --headless help
-        condition: always()
+      - task: ShellScript@2
+        inputs:
+          scriptPath: Install-Hub.sh
