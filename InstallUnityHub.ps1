@@ -106,10 +106,13 @@ if ( Test-Path $modulesPath )
     {
       Write-Host "Found " $_.name
 
-      if( ($_.category -eq 'Platforms') -and ($_.visible -eq $true) )
-      {
-        Write-Host $_.id " isSelected " $_.selected
-      }
+      # if( ($_.category -eq 'Platforms') -and ($_.visible -eq $true) )
+      # {
+      #   Write-Host $_.id " isSelected " $_.selected
+      #   $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList @('--','--headless','im',"--version $UnityVersion",'-m',$_.id)
+      #   Write-Host ""
+      #   Write-Host "Success? " ($p.ExitCode -eq 0)
+      # }
     }
   } else
   {
@@ -122,12 +125,5 @@ if ( Test-Path $modulesPath )
   exit 1
 }
 
-exit 0 #Temp Return Until work below is completed
-
-Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList '--', '--headless', 'im', "--version $UnityVersion", '-m', 'windows-il2cpp', '-m', 'universal-windows-platform', '-m', 'android','-m', 'android-sdk-ndk-tools'
-Write-Host ""
-Write-Host "Success? " ($p.ExitCode -eq 0)
-Write-Host ""
 Write-Host "Install Complete!"
 exit 0
