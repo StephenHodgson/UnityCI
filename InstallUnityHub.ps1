@@ -72,6 +72,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   # Accept License
   ./UnityHub.AppImage
+
+  & "./UnityHub.AppImage" -- --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
@@ -91,7 +93,7 @@ $modulesPath = "$EditorRoot$UnityVersion"
 
 if ( Test-Path $modulesPath )
 {
-  $modulesPath = '{0}modules.json' -f [IO.Path]::DirectorySeparatorChar
+  $modulesPath = '{0}{1}modules.json' -f $modulesPath,[IO.Path]::DirectorySeparatorChar
 
   if( Test-Path $modulesPath )
   {
