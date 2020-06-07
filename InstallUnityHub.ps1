@@ -67,6 +67,20 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   # Accept License
   ./UnityHub.AppImage
+
+  $startProcessArgs = @{
+    'FilePath'     = "./UnityHub.AppImage";
+    'ArgumentList' = @('--', '--headless', 'help');
+    'PassThru'     = $true;
+    'Wait'         = $true;
+  }
+
+  $process = Start-Process @startProcessArgs
+
+  if ( $process.ExitCode -ne 0) {
+    Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
+    exit 1
+  }
 }
 
 Write-Host "Install Hub Complete: $hubPath"
