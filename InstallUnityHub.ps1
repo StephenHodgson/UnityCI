@@ -58,7 +58,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
   cd $outPath
-  sudo chmod -v +x UnityHub.AppImage 2>&1
+  sudo chmod -v a+x UnityHub.AppImage
 
   # UnityHub.AppImage -- --headless help
   $hubPath = "$outPath/UnityHub.AppImage"
@@ -66,19 +66,20 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   file ./UnityHub.AppImage
 
   # Accept License
-  ./UnityHub.AppImage --version 2>&1
+  bash ./UnityHub.AppImage --version 2>&1
 
-  ./UnityHub.AppImage -- --headless help 2>&1
+  bash ./UnityHub.AppImage -- --headless help 2>&1
 }
 
 Write-Host "Install Hub Complete: $hubPath"
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--version'
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'help'
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless install --version 2019.1.14f1 --changeset 148b5891095a'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'install', '--version 2019.1.14f1', '--changeset 148b5891095a'
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless editors -i'
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList '--', '--headless', 'editors', '-i'
 
 #TODO Get editor installation path and search modules.json for a list of all valid modules available then download them all
 
