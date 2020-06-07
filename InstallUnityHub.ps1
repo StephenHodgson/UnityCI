@@ -106,7 +106,7 @@ if ( Test-Path $modulesPath )
     {
       Write-Host "Found " $_.name
 
-      if( ($_.category eq 'Platforms') -and ($_.visible eq $true) )
+      if( ($_.category -eq 'Platforms') -and ($_.visible -eq $true) )
       {
         Write-Host $_.id " isSelected " $_.selected
       }
