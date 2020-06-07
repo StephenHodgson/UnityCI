@@ -11,7 +11,7 @@ stages:
         vmImage: ${{ parameters.image }}
       steps:
       - powershell: |
-          Install-Module -Name ExternalCommand
+          Install-Module -Name ExternalCommand -Scope CurrentUser -Repository PSGallery -Force
       - task: PowerShell@2
         condition: always()
         inputs:
@@ -24,3 +24,7 @@ stages:
           #ignoreLASTEXITCODE: false # Optional
           pwsh: true # Optional
           #workingDirectory: # Optional
+      - script: |
+          ./UnityHub.AppImage -- --headless help
+          ./UnityHub.AppImage -- --headless install --version 2019.1.14f1 --changeset 148b5891095a
+        condition: always()
