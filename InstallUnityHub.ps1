@@ -110,7 +110,7 @@ if ( Test-Path $modulesPath ) {
     $modules = @('--','--headless','im',"--version $UnityVersion")
 
     foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
-      if( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
+      if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
         Write-Host "found platform module" $module.id
         $modules += '-m'
         $modules += $module.id
