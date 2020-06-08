@@ -8,7 +8,7 @@ $pattern = '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[f
 $matches = $matches = [regex]::Matches($version, $pattern)
 $UnityVersion = $matches[0].Groups['version'].Value.Trim()
 $UnityVersion = $UnityVersion.Trim()
-$UnityVersionChangeSet = $matches[0].Groups['revision'].Value.Trim()
+$UnityVersionChangeSet = $matches[1].Groups['revision'].Value.Trim()
 $UnityVersionChangeSet = $UnityVersionChangeSet.Trim()
 
 Write-Host $UnityVersion $UnityVersionChangeSet
