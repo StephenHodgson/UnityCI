@@ -118,7 +118,7 @@ if ( Test-Path -Path $modulesPath ) {
     }
 
     Write-Host ""
-    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList $modules
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList $modules
     Write-Host ""
     Write-Host "Success? " ($p.ExitCode -eq 0)
   } else {
