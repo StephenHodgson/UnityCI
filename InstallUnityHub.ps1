@@ -98,7 +98,7 @@ Write-Host "Success? " ($p.ExitCode -eq 0)
 $modulesPath = "$editorPath$UnityVersion"
 $editorPath = '{0}{1}{2}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,$editorFileEx
 
-if ( -not (Test-Path -Path $editorPath -PathType Leaf) ) {
+if ( -not (Test-Path -Path $editorPath) ) {
   Write-Error "Failed to validate installed editor path at "$editorPath
   exit 1
 }
