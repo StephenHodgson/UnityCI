@@ -4,7 +4,17 @@ $baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
 $outPath = $PSScriptRoot
 $editorPath = ""
 $version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
-$matches = $version | Select-String '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))' -AllMatches
+$pattern = '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))'
+$matches = $matches = [regex]::Matches($version, $pattern)
+
+foreach ($match in $matches)
+{
+  foreach ($group in $match.Groups)
+  {
+    Write-Host "Group " $group.Name ": " $group.Value
+  }
+}
+
 $UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object -ExpandProperty Value
 $UnityVersion = $UnityVersion.Trim()
 $UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object -ExpandProperty Value
