@@ -96,7 +96,7 @@ $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -A
 Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
-$modulesPath = "$EditorRoot$UnityVersion"
+$modulesPath = "$editorPath$UnityVersion"
 $editorPath = '{0}{1}{2}{3}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,'Unity',$editorFileEx
 
 if ( Test-Path $modulesPath )
@@ -126,7 +126,7 @@ if ( Test-Path $modulesPath )
   }
 } else
 {
-  Write-Error "Failed to resolve editor installation path at $EditorRoot$UnityVersion"
+  Write-Error "Failed to resolve editor installation path at $editorPath$UnityVersion"
   exit 1
 }
 
