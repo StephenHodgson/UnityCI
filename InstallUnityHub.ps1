@@ -99,14 +99,18 @@ if ( Test-Path $modulesPath )
   if( Test-Path $modulesPath )
   {
     Write-Host "Modules Manifest: " $modulesPath
+    $modules = @('--','--headless','im',"--version $UnityVersion")
 
     Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach {
       if( ($_.category -eq 'Platforms') -and ($_.visible -eq $true) )
       {
-        $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList @('--','--headless','im',"--version $UnityVersion",'-m',$_.id)
-        Write-Host ""
-        Write-Host "Success? " ($p.ExitCode -eq 0)
+        $modules += '-m'
+        $modules += $_.id
       }
+
+      $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList $modules
+      Write-Host ""
+      Write-Host "Success? " ($p.ExitCode -eq 0)
     }
   } else
   {
