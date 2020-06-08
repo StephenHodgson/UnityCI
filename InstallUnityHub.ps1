@@ -5,8 +5,10 @@ $outPath = $PSScriptRoot
 $editorPath = ""
 $version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
 $matches = $version | Select-String '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))' -AllMatches
-$UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object -ExpandProperty Value | $_.Trim()
-$UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object -ExpandProperty Value | $_.Trim()
+$UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object -ExpandProperty Value
+$UnityVersion = $UnityVersion.Trim()
+$UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object -ExpandProperty Value
+$UnityVersionChangeSet = $UnityVersionChangeSet.Trim()
 
 Write-Host $UnityVersion $UnityVersionChangeSet
 
