@@ -6,8 +6,10 @@ $editorPath = ""
 $version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
 $pattern = '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))'
 $matches = $matches = [regex]::Matches($version, $pattern)
-$UnityVersion = $matches[0].Groups['version'].Trim()
-$UnityVersionChangeSet = $matches[0].Groups['revision'].Trim()
+$UnityVersion = $matches[0].Groups['version']
+$UnityVersion = $UnityVersion.Trim()
+$UnityVersionChangeSet = $matches[0].Groups['revision']
+$UnityVersionChangeSet = $UnityVersionChangeSet.Trim()
 
 Write-Host $UnityVersion $UnityVersionChangeSet
 
