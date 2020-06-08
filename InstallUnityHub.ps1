@@ -2,11 +2,11 @@ Write-Host "$(Get-Date): Downloading Unity Hub..."
 
 $baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
 $outPath = $PSScriptRoot
-$EditorRoot = ""
+$editorPath = ""
 $version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
 $matches = $version | Select-String '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))' -AllMatches
-$UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object -ExpandProperty Value
-$UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object -ExpandProperty Value
+$UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object -ExpandProperty Value | $_.Trim()
+$UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object -ExpandProperty Value | $_.Trim()
 
 Write-Host $UnityVersion $UnityVersionChangeSet
 
@@ -43,7 +43,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-  $EditorRoot = "C:\Program Files\Unity\Hub\Editor\"
+  $editorPath = "C:\Program Files\Unity\Hub\Editor\"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -59,7 +59,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
-  $EditorRoot = "/Applications/Unity/Hub/Editor/"
+  $editorPath = "/Applications/Unity/Hub/Editor/"
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
@@ -70,7 +70,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   # UnityHub.AppImage -- --headless help
   $hubPath = "./UnityHub.AppImage"
-  $EditorRoot = "~/Unity/Hub/Editor/"
+  $editorPath = "~/Unity/Hub/Editor/"
 
   file ./UnityHub.AppImage
 
@@ -95,6 +95,7 @@ Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
 $modulesPath = "$EditorRoot$UnityVersion"
+$editorPath = $editorPath
 
 if ( Test-Path $modulesPath )
 {
