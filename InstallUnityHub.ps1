@@ -11,13 +11,13 @@ foreach ($match in $matches)
 {
   foreach ($group in $match.Groups)
   {
-    Write-Host "Group "$group.Name" |"$group.Value"|"
+    Write-Host "Group "$group.Name" |"$group.Value.Trim()"|"
   }
 }
 
-$UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object -ExpandProperty Value
+$UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object
 $UnityVersion = $UnityVersion.Trim()
-$UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object -ExpandProperty Value
+$UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object
 $UnityVersionChangeSet = $UnityVersionChangeSet.Trim()
 
 Write-Host $UnityVersion $UnityVersionChangeSet
