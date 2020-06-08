@@ -1,14 +1,22 @@
+variables:
+  ${{ if eq( variables['build.reason'], 'PullRequest' ) }}:
+    date: ''
+  ${{ if ne( variables['build.reason'], 'PullRequest' ) }}:
+    date: ${{ '$(Date:yyyyMMdd)' }}
+
+name: UnityCI ${{ coalesce( variables['date'], '$(System.PullRequest.PullRequestNumber)', '$(Date:yyyyMMdd)' ) }}$(Rev:.r)
+
+pr:
+  #autoCancel: true
+  branches:
+   include:
+     - master
+
 trigger:
-- master
+  batch: true
+  branches:
+    include:
+      - master
 
-pool:
-  vmImage: 'ubuntu-latest'
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+extends:
+  template: common.yml
