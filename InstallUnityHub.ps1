@@ -118,6 +118,7 @@ if ( Test-Path $modulesPath )
     Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach {
       if( ($_.category -eq 'Platforms') -and ($_.visible -eq $true) )
       {
+        Write-Host "found platform module" $_.id
         $modules += '-m'
         $modules += $_.id
       }
@@ -133,7 +134,7 @@ if ( Test-Path $modulesPath )
   }
 } else
 {
-  Write-Error "Failed to resolve editor installation path at $editorPath$UnityVersion"
+  Write-Error "Failed to resolve editor installation path at" $modulesPath
   exit 1
 }
 
