@@ -3,7 +3,8 @@ Write-Host "$(Get-Date): Downloading Unity Hub..."
 $baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
 $outPath = $PSScriptRoot
 $EditorRoot = ""
-$matches = Select-String "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)" -Pattern "(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))" -AllMatches
+$version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
+$matches = Select-String $version -Pattern "(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))" -AllMatches
 $UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object -ExpandProperty Value
 Write-Host $UnityVersion
 $UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object -ExpandProperty Value
