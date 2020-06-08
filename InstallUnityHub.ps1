@@ -11,7 +11,7 @@ foreach ($match in $matches)
 {
   foreach ($group in $match.Groups)
   {
-    Write-Host "Group " $group.Name ": " $group.Value
+    Write-Host "Group "$group.Name" |"$group.Value"|"
   }
 }
 
