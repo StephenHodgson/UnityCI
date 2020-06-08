@@ -15,7 +15,6 @@ $wc = New-Object System.Net.WebClient
 Write-Host "$(Get-Date): Download Complete, Starting installation..."
 
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
-  exit 0
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
   $startProcessArgs = @{
     'FilePath'     = "$outPath/UnityHubSetup.exe";
