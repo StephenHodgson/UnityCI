@@ -6,19 +6,8 @@ $editorPath = ""
 $version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
 $pattern = '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))'
 $matches = $matches = [regex]::Matches($version, $pattern)
-
-foreach ($match in $matches)
-{
-  foreach ($group in $match.Groups)
-  {
-    Write-Host "Group "$group.Name" |"$group.Value.Trim()"|"
-  }
-}
-
-$UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object
-$UnityVersion = $UnityVersion.Trim()
-$UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object
-$UnityVersionChangeSet = $UnityVersionChangeSet.Trim()
+$UnityVersion = $matches[0].Groups['version'].Trim()
+$UnityVersionChangeSet = $matches[0].Groups['revision'].Trim()
 
 Write-Host $UnityVersion $UnityVersionChangeSet
 
