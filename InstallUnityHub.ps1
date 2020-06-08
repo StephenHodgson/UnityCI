@@ -4,13 +4,12 @@ $baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
 $outPath = $PSScriptRoot
 $EditorRoot = ""
 $version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
-$matches = $version | Select-String  '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))' -AllMatches
+$matches = $version | Select-String '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))' -AllMatches
 $UnityVersion = $matches.Matches.groups | ? { $_.Name -eq 'version' } | Select-Object -ExpandProperty Value
 $UnityVersionChangeSet = $matches.Matches.groups | ? { $_.Name -eq 'revision' } | Select-Object -ExpandProperty Value
 
-Write-Host $UnityVersion
-Write-Host $UnityVersionChangeSet
-exit 0
+Write-Host $UnityVersion $UnityVersionChangeSet
+
 $wc = New-Object System.Net.WebClient
 
 Write-Host "$(Get-Date): Download Complete, Starting installation..."
