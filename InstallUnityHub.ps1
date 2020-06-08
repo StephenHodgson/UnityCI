@@ -15,6 +15,7 @@ $wc = New-Object System.Net.WebClient
 Write-Host "$(Get-Date): Download Complete, Starting installation..."
 
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
+  exit 0
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
   $startProcessArgs = @{
     'FilePath'     = "$outPath/UnityHubSetup.exe";
@@ -97,7 +98,7 @@ Write-Host "Success? " ($p.ExitCode -eq 0)
 $modulesPath = "$editorPath$UnityVersion"
 $editorPath = '{0}{1}{2}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,$editorFileEx
 
-if ( (Test-Path $editorPath -PathType Leaf) -eq $false ) {
+if ( -not (Test-Path $editorPath -PathType Leaf) ) {
   Write-Error "Failed to validate installed editor path at "$editorPath
   exit 1
 }
