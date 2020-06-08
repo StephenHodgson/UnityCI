@@ -3,15 +3,12 @@ Write-Host "$(Get-Date): Downloading Unity Hub..."
 $baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
 $outPath = $PSScriptRoot
 $editorPath = ""
+$editorFileEx = ""
 $version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
 $pattern = '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))'
 $matches = $matches = [regex]::Matches($version, $pattern)
 $UnityVersion = $matches[0].Groups['version'].Value.Trim()
-$UnityVersion = $UnityVersion.Trim()
 $UnityVersionChangeSet = $matches[1].Groups['revision'].Value.Trim()
-$UnityVersionChangeSet = $UnityVersionChangeSet.Trim()
-
-Write-Host $UnityVersion $UnityVersionChangeSet
 
 $wc = New-Object System.Net.WebClient
 
@@ -47,6 +44,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   }
 
   $editorPath = "C:\Program Files\Unity\Hub\Editor\"
+  $editorFileEx = ".exe"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -63,6 +61,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $editorPath = "/Applications/Unity/Hub/Editor/"
+  $editorFileEx = ".app"
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
@@ -98,7 +97,7 @@ Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
 $modulesPath = "$EditorRoot$UnityVersion"
-$editorPath = $editorPath
+$editorPath = '{0}{1}{2}{3}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,'Unity',$editorFileEx
 
 if ( Test-Path $modulesPath )
 {
@@ -132,4 +131,5 @@ if ( Test-Path $modulesPath )
 }
 
 Write-Host "Install Complete!"
+Write-Host "Editor exec path:" $editorPath
 exit 0
