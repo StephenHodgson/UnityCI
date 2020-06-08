@@ -44,7 +44,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   }
 
   $editorPath = "C:\Program Files\Unity\Hub\Editor\"
-  $editorFileEx = ".exe"
+  $editorFileEx = "Editor\Unity.exe"
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -61,7 +61,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $editorPath = "/Applications/Unity/Hub/Editor/"
-  $editorFileEx = ".app"
+  $editorFileEx = "Unity.app"
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
@@ -73,6 +73,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # UnityHub.AppImage -- --headless help
   $hubPath = "./UnityHub.AppImage"
   $editorPath = "~/Unity/Hub/Editor/"
+  $editorFileEx = "Unity"
 
   file ./UnityHub.AppImage
 
@@ -97,7 +98,13 @@ Write-Host ""
 Write-Host "Success? " ($p.ExitCode -eq 0)
 
 $modulesPath = "$editorPath$UnityVersion"
-$editorPath = '{0}{1}{2}{3}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,'Unity',$editorFileEx
+$editorPath = '{0}{1}{2}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,$editorFileEx
+
+if ( (Test-Path $editorPath -PathType Leaf) -eq $false )
+{
+  Write-Error "Failed to validate installed editor path at "$editorPath
+  exit 1
+}
 
 if ( Test-Path $modulesPath )
 {
