@@ -110,9 +110,9 @@ if ( Test-Path $modulesPath )
 {
   $modulesPath = '{0}{1}modules.json' -f $modulesPath,[IO.Path]::DirectorySeparatorChar
 
-  if( Test-Path $modulesPath )
+  if ( Test-Path $modulesPath )
   {
-    Write-Host "Modules Manifest: " $modulesPath
+    Write-Host "Modules Manifest: "$modulesPath
     $modules = @('--','--headless','im',"--version $UnityVersion")
 
     Get-Content -Raw -Path $modulesPath | ConvertFrom-Json | foreach {
