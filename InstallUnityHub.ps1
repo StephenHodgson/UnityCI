@@ -107,11 +107,11 @@ if ( Test-Path $modulesPath )
         $modules += '-m'
         $modules += $_.id
       }
-
-      $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList $modules
-      Write-Host ""
-      Write-Host "Success? " ($p.ExitCode -eq 0)
     }
+
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath $hubPath -ArgumentList $modules
+    Write-Host ""
+    Write-Host "Success? " ($p.ExitCode -eq 0)
   } else
   {
     Write-Error "Failed to resolve modules path at $modulesPath"
