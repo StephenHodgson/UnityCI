@@ -76,6 +76,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   # Accept License
   ./UnityHub.AppImage
+
+  ./UnityHub.AppImage --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
@@ -98,7 +100,7 @@ $modulesPath = "$editorPath$UnityVersion"
 $editorPath = '{0}{1}{2}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,$editorFileEx
 
 if ( -not (Test-Path -Path $editorPath) ) {
-  Write-Error "Failed to validate installed editor path at "$editorPath
+  Write-Error "Failed to validate installed editor path at $editorPath"
   exit 1
 }
 
@@ -126,7 +128,7 @@ if ( Test-Path -Path $modulesPath ) {
     exit 1
   }
 } else {
-  Write-Error "Failed to resolve editor installation path at" $modulesPath
+  Write-Error "Failed to resolve editor installation path at $modulesPath"
   exit 1
 }
 
