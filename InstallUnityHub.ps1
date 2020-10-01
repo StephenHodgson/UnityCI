@@ -64,7 +64,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  cd $outPath
+  Set-Location $outPath
   sudo chmod -v a+x UnityHub.AppImage
 
   # UnityHub.AppImage -- --headless help
@@ -83,16 +83,16 @@ Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','help')
 Write-Host ""
-Write-Host "Success? " ($p.ExitCode -eq 0)
+Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
 
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','install',"--version $UnityVersion","--changeset $UnityVersionChangeSet")
 Write-Host ""
-Write-Host "Success? " ($p.ExitCode -eq 0)
+Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','editors','-i')
 Write-Host ""
-Write-Host "Success? " ($p.ExitCode -eq 0)
+Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
 
 $modulesPath = "$editorPath$UnityVersion"
 $editorPath = '{0}{1}{2}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,$editorFileEx
@@ -120,7 +120,7 @@ if ( Test-Path -Path $modulesPath ) {
     Write-Host ""
     $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList $modules
     Write-Host ""
-    Write-Host "Success? " ($p.ExitCode -eq 0)
+    Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
   } else {
     Write-Error "Failed to resolve modules path at $modulesPath"
     exit 1
@@ -132,5 +132,5 @@ if ( Test-Path -Path $modulesPath ) {
 
 Write-Host "Install Complete!"
 Write-Host "UnityEditor path set to: $editorPath"
-echo "##vso[task.setvariable variable=EditorPath]$editorPath"
+Write-Output "##vso[task.setvariable variable=EditorPath]$editorPath"
 exit 0
