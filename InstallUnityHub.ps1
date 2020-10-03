@@ -64,8 +64,8 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
-  sudo chmod +x /tmp/UnityHub.AppImage
-  Set-Location /tmp -Verbose
+  sudo chmod -v a+x /tmp/UnityHub.AppImage
+  cd -v "/tmp"
   sudo /tmp/UnityHub.AppImage --appimage-extract
   sudo cp -Rv /tmp/squashfs-root/* /
   sudo rm -rfv /tmp/squashfs-root /tmp/UnityHub.AppImage
