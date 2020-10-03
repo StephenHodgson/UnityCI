@@ -64,12 +64,12 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/tmp/UnityHub.AppImage")
-  sudo chmod +x /tmp/UnityHub.AppImage
-  cd /tmp
+  sudo chmod +x "/tmp/UnityHub.AppImage"
+  cd "/tmp"
   /tmp/UnityHub.AppImage --appimage-extract
-  cp -R /tmp/squashfs-root/* /
-  rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage
-  mkdir -p /opt/unity
+  cp -R "/tmp/squashfs-root/*" "/"
+  rm -rf "/tmp/squashfs-root" "/tmp/UnityHub.AppImage"
+  mkdir -p "/opt/unity"
   mv /AppRun /opt/unity/UnityHub
   mkdir -p "/root/.config/Unity Hub"
   touch "/root/.config/Unity Hub/eulaAccepted"
