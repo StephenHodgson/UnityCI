@@ -74,7 +74,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   mkdir -p "/root/.config/Unity Hub"
   touch "/root/.config/Unity Hub/eulaAccepted"
 
-  $hubPath = "./opt/unity/UnityHub"
+  $hubPath = "/opt/unity/UnityHub"
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
