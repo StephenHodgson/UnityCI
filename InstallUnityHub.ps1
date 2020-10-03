@@ -74,7 +74,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # sudo mkdir -pv "/root/.config/Unity Hub"
   # sudo touch "/root/.config/Unity Hub/eulaAccepted"
 
-  $hubPath = ./opt/unity/UnityHub
+  $hubPath = ."/opt/unity/UnityHub"
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
   # UnityHub.AppImage -- --headless help
