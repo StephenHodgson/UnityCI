@@ -66,11 +66,11 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
   sudo chmod +x /tmp/UnityHub.AppImage
   cd /tmp
-  /tmp/UnityHub.AppImage --appimage-extract
-  cp -R /tmp/squashfs-root/* /
-  rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage
-  mkdir -p /opt/unity
-  mv /AppRun /opt/unity/UnityHub
+  sudo /tmp/UnityHub.AppImage --appimage-extract
+  sudo cp -R /tmp/squashfs-root/* /
+  sudo rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage
+  sudo mkdir -p /opt/unity
+  sudo mv /AppRun /opt/unity/UnityHub
   sudo mkdir -p "/root/.config/Unity Hub"
   sudo touch "/root/.config/Unity Hub/eulaAccepted"
 
