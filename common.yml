@@ -3,11 +3,11 @@ parameters:
   type: object
   default:
     windows:
-      image: vs2017-win2016
+      image: windows-latest
     macOS:
-      image: macOS-10.15
+      image: macOS-latest
     linux:
-      image: ubuntu-16.04
+      image: ubuntu-latest
 
 stages:
 - ${{ each pair in parameters.os }}:
