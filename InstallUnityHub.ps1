@@ -55,10 +55,10 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   sudo cp -rf "`"$dmgAppPath`"" "/Applications"
   hdiutil unmount $dmgVolume
 
-  # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $editorPath = "/Applications/Unity/Hub/Editor/"
   $editorFileEx = "Unity.app"
+  # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
@@ -67,18 +67,18 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo chmod +x /tmp/UnityHub.AppImage
   cd /tmp
   /tmp/UnityHub.AppImage --appimage-extract
-  cp -R "/tmp/squashfs-root/*" "/"
-  rm -rf "/tmp/squashfs-root" "/tmp/UnityHub.AppImage"
-  mkdir -p "/opt/unity"
-  mv "/AppRun" "/opt/unity/UnityHub"
-  mkdir -p "/root/.config/Unity Hub"
-  touch "/root/.config/Unity Hub/eulaAccepted"
+  cp -R /tmp/squashfs-root/* /
+  rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage
+  mkdir -p /opt/unity
+  mv /AppRun /opt/unity/UnityHub
+  sudo mkdir -p "/root/.config/Unity Hub"
+  sudo touch "/root/.config/Unity Hub/eulaAccepted"
 
-  $hubPath = "/opt/unity/UnityHub"
+  $hubPath = ./opt/unity/UnityHub
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
-
   # UnityHub.AppImage -- --headless help
+  ./opt/unity/UnityHub -- --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
