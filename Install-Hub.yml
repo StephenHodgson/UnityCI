@@ -22,9 +22,9 @@ stages:
           #ignoreLASTEXITCODE: false # Optional
           pwsh: true # Optional
           #workingDirectory: # Optional
-      - task: ShellScript@2
-        inputs:
-          scriptPath: Install-Hub.sh
-        condition: ${{ eq('ubuntu-16.04', parameters.image) }}
-      - bash: './UnityHub.AppImage -- --headless help'
-        condition: ${{ eq('ubuntu-16.04', parameters.image) }}
+      # - task: ShellScript@2
+      #   inputs:
+      #     scriptPath: Install-Hub.sh
+      #   condition: ${{ eq('ubuntu-16.04', parameters.image) }}
+      # - bash: './UnityHub.AppImage -- --headless help'
+      #   condition: ${{ eq('ubuntu-16.04', parameters.image) }}
