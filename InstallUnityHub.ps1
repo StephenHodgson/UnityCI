@@ -66,12 +66,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
   sudo chmod -v a+x /tmp/UnityHub.AppImage
   sudo /tmp/UnityHub.AppImage --appimage-extract
-  sudo cp -Rv "/tmp/squashfs-root/*" "/"
-  sudo rm -rfv "/tmp/squashfs-root" "/tmp/UnityHub.AppImage"
-  sudo mkdir -pv "/opt/unity"
-  sudo mv "/AppRun" "/opt/unity/UnityHub"
-  sudo mkdir -pv "/root/.config/Unity Hub"
-  sudo touch "/root/.config/Unity Hub/eulaAccepted"
+  # sudo cp -Rv "/tmp/squashfs-root/*" "/"
+  # sudo rm -rfv "/tmp/squashfs-root" "/tmp/UnityHub.AppImage"
+  # sudo mkdir -pv "/opt/unity"
+  # sudo mv "/AppRun" "/opt/unity/UnityHub"
+  # sudo mkdir -pv "/root/.config/Unity Hub"
+  # sudo touch "/root/.config/Unity Hub/eulaAccepted"
 
   $hubPath = ./opt/unity/UnityHub
   $editorPath = "~/Unity/Hub/Editor/"
