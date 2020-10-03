@@ -84,7 +84,6 @@ Write-Host "Unity HUB CLI Options:"
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','help')
 Write-Host ""
 Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
-
 Write-Host ""
 $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','install',"--version $UnityVersion","--changeset $UnityVersionChangeSet")
 Write-Host ""
