@@ -63,10 +63,10 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
-  sudo chmod -v a+x /tmp/UnityHub.AppImage
-  sudo /tmp/UnityHub.AppImage --appimage-extract
-  Test-Path "/squashfs-root/AppRun"
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "~/Downloads/UnityHub.AppImage")
+  sudo chmod -v a+x ~/Downloads/UnityHub.AppImage
+  sudo ~/Downloads/UnityHub.AppImage --appimage-extract
+
   # sudo cp -Rv /squashfs-root/* /
   # sudo rm -rfv /squashfs-root /tmp/UnityHub.AppImage
   # sudo mkdir -pv /opt/unity
@@ -74,11 +74,17 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # sudo mkdir -pv "/root/.config/Unity Hub"
   # sudo touch "/root/.config/Unity Hub/eulaAccepted"
 
-  $hubPath = ./opt/unity/UnityHub
+  $hubPath = "/opt/unity/UnityHub"
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
-  # UnityHub.AppImage -- --headless help
-  ./opt/unity/UnityHub -- --headless help
+
+  if( Test-Path $hubPath ) {
+    # UnityHub.AppImage -- --headless help
+    . "/opt/unity/UnityHub" -- --headless help
+  } else {
+    Write-Error "$hubPath path not found!"
+    exit 1
+  }
 }
 
 Write-Host "Install Hub Complete: $hubPath"
