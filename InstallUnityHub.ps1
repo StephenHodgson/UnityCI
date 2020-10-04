@@ -63,6 +63,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
+  sudo mkdir -pv "$outPath/tmp/"
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/tmp/UnityHub.AppImage")
   sudo chmod -v a+x "$outPath/tmp/UnityHub.AppImage"
   Set-Location -Path "$outPath/tmp/"
