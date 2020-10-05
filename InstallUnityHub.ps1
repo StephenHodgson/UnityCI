@@ -63,26 +63,25 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
-  sudo mkdir -pv "$outPath/tmp/"
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/tmp/UnityHub.AppImage")
-  sudo chmod -v a+x "$outPath/tmp/UnityHub.AppImage"
-  Set-Location -Path "$outPath/tmp/"
-  sudo "$outPath/tmp/UnityHub.AppImage" --appimage-extract
-
-  # sudo cp -Rv /squashfs-root/* /
-  # sudo rm -rfv /squashfs-root /tmp/UnityHub.AppImage
-  # sudo mkdir -pv /opt/unity
-  # sudo mv /AppRun /opt/unity/UnityHub
-  # sudo mkdir -pv "/root/.config/Unity Hub"
-  # sudo touch "/root/.config/Unity Hub/eulaAccepted"
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
+  sudo chmod -v a+x "/tmp/UnityHub.AppImage"
+  sudo "/tmp/UnityHub.AppImage" --appimage-extract
+  sudo cp -Rv "/tmp/squashfs-root/*" "/tmp"
+  sudo rm -rfv "/tmp/squashfs-root" "/tmp/UnityHub.AppImage"
+  sudo mkdir -pv "/opt/unity"
+  sudo mv "/tmp/AppRun" "/opt/unity/UnityHub"
+  sudo find "/tmp" -mindepth 1 -delete
+  sudo mkdir -pv "/root/.config/Unity Hub"
+  sudo touch "/root/.config/Unity Hub/eulaAccepted"
 
   $hubPath = "/opt/unity/UnityHub"
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
   if( Test-Path $hubPath ) {
+    sudo chmod -v a+x $hubPath
     # UnityHub.AppImage -- --headless help
-    . "/opt/unity/UnityHub" -- --headless help
+    . $hubPath -- --headless help
   } else {
     Write-Error "$hubPath path not found!"
     exit 1
