@@ -65,10 +65,10 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
   sudo chmod -v a+x "/tmp/UnityHub.AppImage"
-  sudo "/tmp/UnityHub.AppImage" --appimage-help
-  # sudo "/tmp/UnityHub.AppImage" --appimage-extract
-  # sudo cp -Rv "/tmp/squashfs-root/*" "/tmp"
-  # sudo rm -rfv "/tmp/squashfs-root" "/tmp/UnityHub.AppImage"
+  sudo "/tmp/UnityHub.AppImage" --appimage-extract
+  sudo ls -la "/tmp"
+  # sudo cp -R "/tmp/squashfs-root/*" "/"
+  # sudo rm -rf "/tmp/squashfs-root" "/tmp/UnityHub.AppImage"
   # sudo mkdir -pv "/opt/unity"
   # sudo mv "/tmp/AppRun" "/opt/unity/UnityHub"
   # sudo find "/tmp" -mindepth 1 -delete
