@@ -66,7 +66,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
   sudo chmod -v a+x "/tmp/UnityHub.AppImage"
   sudo "/tmp/UnityHub.AppImage" --appimage-extract
-  sudo ls -la "/tmp"
+  sudo ls -la squashfs-root
   # sudo cp -R "/tmp/squashfs-root/*" "/"
   # sudo rm -rf "/tmp/squashfs-root" "/tmp/UnityHub.AppImage"
   # sudo mkdir -pv "/opt/unity"
