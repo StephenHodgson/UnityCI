@@ -67,7 +67,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo chmod -v a+x "/tmp/UnityHub.AppImage"
   sudo "/tmp/UnityHub.AppImage" --appimage-extract
   sudo ls -la "squashfs-root"
-  sudo cp -R squashfs-root/* /
+  sudo cp -R "squashfs-root" "/"
   sudo rm -rf "squashfs-root" "/tmp/UnityHub.AppImage"
   sudo mkdir -pv "/opt/unity"
   sudo mv "/AppRun" "/opt/unity/UnityHub"
