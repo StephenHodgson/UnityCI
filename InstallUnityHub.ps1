@@ -111,7 +111,7 @@ if ( Test-Path -Path $modulesPath ) {
       if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
         Write-Host "found platform module" $module.id
         Write-Host ""
-        $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','install-modules',"--version $UnityVersion", '-m', $module.id)
+        $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','install-modules',"--version $UnityVersion", '-m', $module.id, '--cm')
         Write-Host ""
         Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
       }
