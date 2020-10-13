@@ -106,20 +106,17 @@ if ( Test-Path -Path $modulesPath ) {
 
   if ( Test-Path -Path $modulesPath ) {
     Write-Host "Modules Manifest: "$modulesPath
-    $modules = @('--','--headless','install-modules',"--version $UnityVersion")
 
     foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
       if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
         Write-Host "found platform module" $module.id
-        $modules += '--module'
-        $modules += $module.id
+        Write-Host ""
+        $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','install-modules',"--version $UnityVersion", '-m', $module.id)
+        Write-Host ""
+        Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
       }
     }
 
-    Write-Host ""
-    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList $modules
-    Write-Host ""
-    Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
   } else {
     Write-Error "Failed to resolve modules path at $modulesPath"
     exit 1
