@@ -67,7 +67,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $editorFileEx = "Unity"
 
   sudo apt-get -q update
-  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity xz-utils xvfb lsb-release cpio libxss1 libxtst6 libnss3 libncurses5 libgtk-3-0 libglu1 libgconf-2-4 libc6-dev libasound2 ca-certificates
+  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity
   sudo apt-get clean
 
   #https://www.linuxdeveloper.space/install-unity-linux/
@@ -78,11 +78,11 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   & ls -la /tmp/squashfs-root/
   & cp -R /tmp/squashfs-root/* /
   & rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage \
-  & mkdir -pv $hubPath
-  & mv "/AppRun" $hubPath
-  & find "/tmp" -mindepth 1 -delete
-  & mkdir -pv "/root/.config/Unity Hub"
-  & touch "/root/.config/Unity Hub/eulaAccepted"
+  & mkdir -pv "$hubPath"
+  & mv /AppRun "$hubPath"
+  & find /tmp -mindepth 1 -delete
+  & mkdir -pv /root/.config/Unity Hub
+  & touch /root/.config/Unity Hub/eulaAccepted
 
   if ( Test-Path $hubPath ) {
     sudo chmod -v a+x $hubPath
