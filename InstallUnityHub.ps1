@@ -62,8 +62,12 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
+  $hubPath = "/opt/unity/UnityHub"
+  $editorPath = "~/Unity/Hub/Editor/"
+  $editorFileEx = "Unity"
+
   sudo apt-get -q update
-  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity
+  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity xz-utils xvfb lsb-release cpio libxss1 libxtst6 libnss3 libncurses5 libgtk-3-0 libglu1 libgconf-2-4 libc6-dev libasound2 ca-certificates
   sudo apt-get clean
 
   #https://www.linuxdeveloper.space/install-unity-linux/
@@ -73,15 +77,11 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo ls -la "squashfs-root"
   sudo cp -R "squashfs-root" "/"
   sudo rm -rf "squashfs-root" "/tmp/UnityHub.AppImage"
-  sudo mkdir -pv "/opt/unity"
-  sudo mv "/AppRun" "/opt/unity/UnityHub"
+  sudo mkdir -pv $hubPath
+  sudo mv "/AppRun" $hubPath
   sudo find "/tmp" -mindepth 1 -delete
   sudo mkdir -pv "/root/.config/Unity Hub"
   sudo touch "/root/.config/Unity Hub/eulaAccepted"
-
-  $hubPath = "/opt/unity/UnityHub"
-  $editorPath = "~/Unity/Hub/Editor/"
-  $editorFileEx = "Unity"
 
   if ( Test-Path $hubPath ) {
     sudo chmod -v a+x $hubPath
