@@ -63,7 +63,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo xhost +
-  export DISPLAY=:1
+  export DISPLAY=:0
   sudo mkdir -p /opt/unity/UnityHub
   $hubPath = "/opt/unity/UnityHub.AppImage"
   $editorPath = "~/Unity/Hub/Editor/"
