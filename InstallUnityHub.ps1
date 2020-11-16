@@ -31,7 +31,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-  if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" ) {
+  if ( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" ) {
     #"Unity Hub.exe" -- --headless help
     $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
     #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
@@ -62,6 +62,10 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
+  apt-get -q update
+  apt-get -q install -y --no-install-recommends --allow-downgrades zenity
+  apt-get clean
+
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
   sudo chmod -v a+x "/tmp/UnityHub.AppImage"
@@ -79,7 +83,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
-  if( Test-Path $hubPath ) {
+  if ( Test-Path $hubPath ) {
     sudo chmod -v a+x $hubPath
     # UnityHub.AppImage -- --headless help
     . $hubPath -- --headless help
