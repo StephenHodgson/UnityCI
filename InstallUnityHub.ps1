@@ -74,7 +74,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # sudo /tmp/UnityHub.AppImage --appimage-extract
   # sudo cp -a squashfs-root/. /tmp
   # sudo rm -rf squashfs-root /tmp/UnityHub.AppImage
-  # sudo mkdir -p /opt/unity/UnityHub
+  sudo mkdir -p /opt/unity/UnityHub
   sudo mv -fv /tmp/UnityHub.AppImage /opt/unity/UnityHub
   #sudo find /tmp -mindepth 1 -delete
 
