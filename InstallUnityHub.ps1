@@ -70,13 +70,13 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
-  sudo chmod -v a+x /tmp/UnityHub.AppImage
-  sudo /tmp/UnityHub.AppImage --appimage-extract
-  sudo cp -a squashfs-root/. /tmp
-  sudo rm -rf squashfs-root /tmp/UnityHub.AppImage
-  sudo mkdir -p /opt/unity/UnityHub
-  sudo mv -fv /tmp/AppRun /opt/unity/UnityHub
-  sudo find /tmp -mindepth 1 -delete
+  # sudo chmod -v a+x /tmp/UnityHub.AppImage
+  # sudo /tmp/UnityHub.AppImage --appimage-extract
+  # sudo cp -a squashfs-root/. /tmp
+  # sudo rm -rf squashfs-root /tmp/UnityHub.AppImage
+  # sudo mkdir -p /opt/unity/UnityHub
+  sudo mv -fv /tmp/UnityHub.AppImage /opt/unity/UnityHub
+  #sudo find /tmp -mindepth 1 -delete
 
   sudo mkdir -pv "/root/.config/Unity Hub"
   sudo touch "/root/.config/Unity Hub/eulaAccepted"
@@ -85,7 +85,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
     sudo chmod -v a+x /opt/unity/UnityHub
 
     #  UnityHub.AppImage -- --headless help
-    . "/opt/unity/UnityHub" -- --headless help
+    . /opt/unity/UnityHub -- --headless help
   } else {
     Write-Error "$hubPath path not found!"
     exit 1
