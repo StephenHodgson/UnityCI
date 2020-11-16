@@ -84,7 +84,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   if ( Test-Path $hubPath ) {
     sudo chmod -v a+x "$hubPath"
     # UnityHub.AppImage -- --headless help
-    . "$hubPath" -- --headless help
+    #. "$hubPath" -- --headless help
   } else {
     Write-Error "$hubPath path not found!"
     exit 1
