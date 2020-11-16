@@ -85,7 +85,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
     sudo chmod -v a+x /opt/unity/UnityHub
 
     # UnityHub.AppImage -- --headless help
-    . /opt/unity/UnityHub -- --headless help
+    ./opt/unity/UnityHub -- --headless help
   } else {
     Write-Error "$hubPath path not found!"
     exit 1
