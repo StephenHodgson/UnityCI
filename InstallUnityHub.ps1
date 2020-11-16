@@ -78,7 +78,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo mv -fv /tmp/AppRun /opt/unity/UnityHub
   sudo find /tmp -mindepth 1 -delete
 
-  sudo alais unity-hub="xvfb-run -ae /dev/stdout /opt/unity/UnityHub"
+  sudo alias unity-hub="xvfb-run -ae /dev/stdout /opt/unity/UnityHub"
 
   sudo mkdir -pv "/root/.config/Unity Hub"
   sudo touch "/root/.config/Unity Hub/eulaAccepted"
