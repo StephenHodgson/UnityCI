@@ -73,16 +73,16 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
   sudo chmod -v a+x /tmp/UnityHub.AppImage \
-  & cd /tmp
-  & /tmp/UnityHub.AppImage --appimage-extract
-  & ls -la /tmp/squashfs-root/
-  & cp -R /tmp/squashfs-root/* /
-  & rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage \
-  & mkdir -pv "$hubPath"
-  & mv /AppRun "$hubPath"
-  & find /tmp -mindepth 1 -delete
-  & mkdir -pv /root/.config/Unity Hub
-  & touch /root/.config/Unity Hub/eulaAccepted
+  & sudo cd /tmp \
+  & sudo /tmp/UnityHub.AppImage --appimage-extract \
+  & sudo ls -la /tmp/squashfs-root/ \
+  & sudo cp -R /tmp/squashfs-root/* / \
+  & sudo rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage \
+  & sudo mkdir -pv "$hubPath" \
+  & sudo mv /AppRun "$hubPath" \
+  & sudo find /tmp -mindepth 1 -delete \
+  & sudo mkdir -pv /root/.config/Unity Hub \
+  & sudo touch /root/.config/Unity Hub/eulaAccepted
 
   if ( Test-Path $hubPath ) {
     sudo chmod -v a+x $hubPath
