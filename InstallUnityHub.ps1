@@ -62,9 +62,9 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
-  apt-get -q update
-  apt-get -q install -y --no-install-recommends --allow-downgrades zenity
-  apt-get clean
+  sudo apt-get -q update
+  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity
+  sudo apt-get clean
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
