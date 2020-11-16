@@ -68,21 +68,21 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   sudo apt-get -q update
   sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity
-  sudo apt-get clean
+  sudo apt-get -q clean
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
-  sudo chmod -v a+x /tmp/UnityHub.AppImage \
-  & sudo cd /tmp \
-  & sudo /tmp/UnityHub.AppImage --appimage-extract \
-  & sudo ls -la /tmp/squashfs-root/ \
-  & sudo cp -R /tmp/squashfs-root/* / \
-  & sudo rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage \
-  & sudo mkdir -pv "$hubPath" \
-  & sudo mv /AppRun "$hubPath" \
-  & sudo find /tmp -mindepth 1 -delete \
-  & sudo mkdir -pv /root/.config/Unity Hub \
-  & sudo touch /root/.config/Unity Hub/eulaAccepted
+  sudo chmod -v a+x /tmp/UnityHub.AppImage
+  sudo cd /tmp
+  sudo /tmp/UnityHub.AppImage --appimage-extract
+  sudo ls -la /tmp/squashfs-root/
+  sudo cp -R /tmp/squashfs-root/* /
+  sudo rm -rf /tmp/squashfs-root /tmp/UnityHub.AppImage
+  sudo mkdir -pv /opt/unity/UnityHub
+  sudo mv /AppRun /opt/unity/UnityHub
+  sudo find /tmp -mindepth 1 -delete
+  sudo mkdir -pv /root/.config/Unity Hub
+  sudo touch /root/.config/Unity Hub/eulaAccepted
 
   if ( Test-Path $hubPath ) {
     sudo chmod -v a+x $hubPath
