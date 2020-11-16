@@ -74,19 +74,18 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
   sudo chmod -v a+x /tmp/UnityHub.AppImage
   sudo /tmp/UnityHub.AppImage --appimage-extract
-  sudo cp -av squashfs-root/. /tmp
-  sudo ls -la /tmp
-  sudo rm -rfv squashfs-root /tmp/UnityHub.AppImage
-  sudo mkdir -pv /opt/unity/UnityHub
-  sudo mv /tmp/AppRun /opt/unity/UnityHub
+  sudo cp -a squashfs-root/. /tmp
+  sudo rm -rf squashfs-root /tmp/UnityHub.AppImage
+  sudo mkdir -p /opt/unity/UnityHub
+  sudo mv -fv /tmp/AppRun /opt/unity/UnityHub
   sudo find /tmp -mindepth 1 -delete
   sudo mkdir -pv /root/.config/Unity Hub
   sudo touch /root/.config/Unity Hub/eulaAccepted
 
   if ( Test-Path $hubPath ) {
-    sudo chmod -v a+x $hubPath
+    sudo chmod -v a+x /opt/unity/UnityHub
     # UnityHub.AppImage -- --headless help
-    . $hubPath -- --headless help
+    . /opt/unity/UnityHub -- --headless help
   } else {
     Write-Error "$hubPath path not found!"
     exit 1
