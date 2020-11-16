@@ -78,15 +78,14 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo mv -fv /tmp/AppRun /opt/unity/UnityHub
   sudo find /tmp -mindepth 1 -delete
 
-  sudo alias unity-hub="xvfb-run -ae /dev/stdout /opt/unity/UnityHub"
-
   sudo mkdir -pv "/root/.config/Unity Hub"
   sudo touch "/root/.config/Unity Hub/eulaAccepted"
 
   if ( Test-Path $hubPath ) {
-    sudo chmod -v a+x "$hubPath"
+    sudo chmod -v a+x /opt/unity/UnityHub
+
     # UnityHub.AppImage -- --headless help
-    unity-hub -- --headless help
+    . /opt/unity/UnityHub -- --headless help
   } else {
     Write-Error "$hubPath path not found!"
     exit 1
