@@ -66,9 +66,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
-  sudo apt-get -q update
   sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity
-  sudo apt-get -q clean
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "/tmp/UnityHub.AppImage")
@@ -79,9 +77,6 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo mkdir -p /opt/unity/UnityHub
   sudo mv -fv /tmp/AppRun /opt/unity/UnityHub
   sudo find /tmp -mindepth 1 -delete
-
-  sudo echo '#!/bin/bash\nxvfb-run -ae /dev/stdout /opt/unity/UnityHub --no-sandbox --headless "$@"' > /usr/bin/unity-hub
-  sudo chmod +x /usr/bin/unity-hub
 
   sudo mkdir -pv "/root/.config/Unity Hub"
   sudo touch "/root/.config/Unity Hub/eulaAccepted"
