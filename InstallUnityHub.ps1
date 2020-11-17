@@ -62,7 +62,6 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
-  sudo alias zenity="zenity 2>/dev/null"
   sudo mkdir -p /opt/unity/UnityHub
   $hubPath = "/opt/unity/UnityHub.AppImage"
   $editorPath = "~/Unity/Hub/Editor/"
