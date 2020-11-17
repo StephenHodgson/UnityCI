@@ -87,7 +87,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   #                      'xvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"'
   sudo echo '#!/bin/bash\nxvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"' > /opt/unity/unity-hub
-  sudo chmod +x opt/unity/unity-hub
+  sudo chmod +x /opt/unity/unity-hub
 
   unity-hub --version
 
