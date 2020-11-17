@@ -85,9 +85,9 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo mkdir -pv "/root/.config/UnityHub"
   sudo touch "/root/.config/UnityHub/eulaAccepted"
 
-  # sudo echo '#!/bin/bash\nxvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"' > /usr/bin/unity-hub
-  # sudo chmod +x /usr/bin/unity-hub
-  sudo alias unity-hub='xvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"'
+  #                      'xvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"'
+  sudo echo '#!/bin/bash\nxvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"' > /usr/bin/unity-hub
+  sudo chmod +x /usr/bin/unity-hub
 
   unity-hub --version
 
