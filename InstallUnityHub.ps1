@@ -31,7 +31,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-  if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" ) {
+  if ( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" ) {
     #"Unity Hub.exe" -- --headless help
     $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
     #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
@@ -55,27 +55,32 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   sudo cp -rf "`"$dmgAppPath`"" "/Applications"
   hdiutil unmount $dmgVolume
 
-  # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $editorPath = "/Applications/Unity/Hub/Editor/"
   $editorFileEx = "Unity.app"
+  # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
-  #https://www.linuxdeveloper.space/install-unity-linux/
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  Set-Location $outPath
-  sudo chmod -v a+x UnityHub.AppImage
-
-  # UnityHub.AppImage -- --headless help
-  $hubPath = "./UnityHub.AppImage"
+  sudo mkdir -p /opt/unity/UnityHub
+  $hubPath = "/opt/unity/UnityHub.AppImage"
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
-  file ./UnityHub.AppImage
+  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity libgtk2.0-0 libsoup2.4-1 libarchive13 libpng16-16 libgconf-2-4 lib32stdc++6 libcanberra-gtk-module
 
-  # Accept License
-  ./UnityHub.AppImage
+  #https://www.linuxdeveloper.space/install-unity-linux/
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
+  sudo chmod -v a+x "$hubPath"
+  sudo mkdir -pv "/root/.config/UnityHub"
+  sudo touch "/root/.config/UnityHub/eulaAccepted"
+
+  #                      'xvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"'
+  sudo echo '#!/bin/bash\nxvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"' > "/opt/unity/unity-hub"
+  sudo chmod -v a+x "/opt/unity/unity-hub"
+
+  # /UnityHub.AppImage -- --headless help
+  . "/opt/unity/unity-hub" -- --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
