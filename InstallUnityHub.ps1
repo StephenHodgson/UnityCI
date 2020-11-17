@@ -71,25 +71,16 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
-
   sudo chmod -v a+x "$hubPath"
-  # sudo chmod -v a+x /tmp/UnityHub.AppImage
-  # sudo /tmp/UnityHub.AppImage --appimage-extract
-  # sudo cp -a squashfs-root/. /tmp
-  # sudo rm -rf squashfs-root /tmp/UnityHub.AppImage
-  # sudo mkdir -p /opt/unity/UnityHub
-  # sudo mv -fv /tmp/UnityHub.AppImage /opt/unity/UnityHub
-  # sudo find /tmp -mindepth 1 -delete
-
   sudo mkdir -pv "/root/.config/UnityHub"
   sudo touch "/root/.config/UnityHub/eulaAccepted"
 
   #                      'xvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"'
-  sudo echo '#!/bin/bash\nxvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"' > /opt/unity/unity-hub
+  sudo echo -v '#!/bin/bash\nxvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"' > /opt/unity/unity-hub
   sudo chmod -v a+x /opt/unity/unity-hub
 
-  #  UnityHub.AppImage -- --headless help
-  . /opt/unity/unity-hub --headless help
+  # /UnityHub.AppImage -- --headless help
+  . /opt/unity/unity-hub -- --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
