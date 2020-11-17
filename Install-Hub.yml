@@ -5,7 +5,7 @@ stages:
   jobs:
     - job:
       displayName: ${{ format('{0}', parameters.image) }}
-      #timeoutInMinutes: 5
+      timeoutInMinutes: 5
       pool:
         name: 'Azure Pipelines'
         vmImage: ${{ parameters.image }}
