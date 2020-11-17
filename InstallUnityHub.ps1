@@ -67,17 +67,28 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
-  sudo apt-get -q install -y --no-install-recommends --allow-downgrades xvfb zenity libgtk2.0-0 libsoup2.4-1 libarchive13 libpng16-16 libgconf-2-4 lib32stdc++6 libcanberra-gtk-module
+  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity libgtk2.0-0 libsoup2.4-1 libarchive13 libpng16-16 libgconf-2-4 lib32stdc++6 libcanberra-gtk-module
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
 
   sudo chmod -v a+x "$hubPath"
+  # sudo chmod -v a+x /tmp/UnityHub.AppImage
+  # sudo /tmp/UnityHub.AppImage --appimage-extract
+  # sudo cp -a squashfs-root/. /tmp
+  # sudo rm -rf squashfs-root /tmp/UnityHub.AppImage
+  # sudo mkdir -p /opt/unity/UnityHub
+  # sudo mv -fv /tmp/UnityHub.AppImage /opt/unity/UnityHub
+  # sudo find /tmp -mindepth 1 -delete
+
   sudo mkdir -pv "/root/.config/UnityHub"
   sudo touch "/root/.config/UnityHub/eulaAccepted"
 
+  # sudo echo '#!/bin/bash\nxvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage "$@"' > /usr/bin/unity-hub
+  # sudo chmod +x /usr/bin/unity-hub
+
   #  UnityHub.AppImage -- --headless help
-  sudo xvfb-run -a --error-file /dev/null --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage --headless help
+  sudo xvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage --no-sandbox --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
