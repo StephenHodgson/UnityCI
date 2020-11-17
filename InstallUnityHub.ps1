@@ -77,7 +77,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo touch "/root/.config/Unity Hub/eulaAccepted"
 
   #  UnityHub.AppImage -- --headless help
-  sudo xvfb-run -ae 2>&1 --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage --no-sandbox --headless help
+  sudo xvfb-run -a --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage --no-sandbox --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
