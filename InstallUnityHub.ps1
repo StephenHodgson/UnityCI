@@ -73,8 +73,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
 
   sudo chmod -v a+x "$hubPath"
-  sudo mkdir -pv "/root/.config/Unity Hub"
-  sudo touch "/root/.config/Unity Hub/eulaAccepted"
+  sudo mkdir -pv "/root/.config/UnityHub"
+  sudo touch "/root/.config/UnityHub/eulaAccepted"
 
   #  UnityHub.AppImage -- --headless help
   sudo xvfb-run -a --error-file /var/log/xvfb_error.log --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage --headless help
