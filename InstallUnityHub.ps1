@@ -88,7 +88,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   # sudo chmod +x /usr/bin/unity-hub
 
   #  UnityHub.AppImage -- --headless help
-  sudo xvfb-run -ae /dev/stdout --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage --no-sandbox --headless help
+  sudo xvfb-run -ae /dev/null --server-args="-screen 0 1024x768x24 +extension RANDR" /opt/unity/UnityHub.AppImage --no-sandbox --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
