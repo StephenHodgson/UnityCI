@@ -67,7 +67,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $editorPath = "~/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
-  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity libgtk-3-dev
+  sudo apt-get -q install -y --no-install-recommends --allow-downgrades zenity libgtk2.0-0 libsoup2.4-1 libarchive13 libpng16-16 libgconf-2-4 lib32stdc++6 libcanberra-gtk-module
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
