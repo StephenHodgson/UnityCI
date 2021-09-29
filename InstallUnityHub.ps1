@@ -67,7 +67,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $hubInstallationPath = "$HOME/Unity Hub/UnityHub.AppImage"
-  $hubPath = "$HOME/Unity/unity-hub.sh"
+  $hubPath = "$HOME/Unity/unity-hub"
   $editorPath = "$HOME/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
@@ -80,12 +80,11 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   chmod -v a+x "$hubInstallationPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
   touch "$hubPath"
-  #\nxvfb-run --auto-servernum `"`"$hubInstallationPath`"`" `"`"$@`"`"
-  sudo echo "#!/bin/bash\necho `"`"Hi`"`"" > "$hubPath"
+  sudo echo "#!/bin/bash\nxvfb-run --auto-servernum `"`"$hubInstallationPath`"`" `"`"$@`"`"" > "$hubPath"
   echo "$(cat $hubPath)"
   sudo chmod -v a+x "$hubPath"
   # /UnityHub.AppImage --headless help
-  bash "$hubPath" # --headless help
+  bash "$hubPath" --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
