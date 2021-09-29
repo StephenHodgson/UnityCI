@@ -127,7 +127,6 @@ if ( Test-Path -Path $modulesPath ) {
     Write-Host ""
     unity-hub [system.String]::Join(" ", $modules)
     Write-Host ""
-    Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
   } else {
     Write-Error "Failed to resolve modules path at $modulesPath"
     exit 1
@@ -139,5 +138,4 @@ if ( Test-Path -Path $modulesPath ) {
 
 Write-Host "Install Complete!"
 Write-Host "UnityEditor path set to: $editorPath"
-Write-Output "##vso[task.setvariable variable=EditorPath]$editorPath"
 exit 0
