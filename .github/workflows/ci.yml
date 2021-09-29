@@ -6,7 +6,11 @@ concurrency:
 
 jobs:
   unity-hub:
-    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+    strategy:
+      matrix:
+        runner: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.runner }}
+    
     steps:
       - name: Install Unity Hub
         run: InstallUnityHub.ps1
