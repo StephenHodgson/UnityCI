@@ -70,6 +70,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $hubPath = "$HOME/Unity Hub/UnityHub.AppImage"
   $editorPath = "$HOME/Unity/Hub/Editor/"
+  #       /home/runner/Unity/Hub/Editor/2019.1.14f1/Editor/Unity
   $editorFileEx = "Unity"
 
   mkdir -pv "$HOME/Unity Hub" "$HOME/.config/Unity Hub" "$editorPath"
@@ -93,6 +94,8 @@ Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 unity-hub help
+Write-Host ""
+unity-hub ip -g
 Write-Host ""
 unity-hub install --version $UnityVersion --changeset $UnityVersionChangeSet
 Write-Host ""
