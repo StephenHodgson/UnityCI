@@ -70,8 +70,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $hubPath = "$HOME/Unity Hub/UnityHub.AppImage"
   $editorPath = "$HOME/Unity/Hub/Editor/"
-  #       /home/runner/Unity/Hub/Editor/2019.1.14f1/Editor/Unity
-  $editorFileEx = "Unity"
+  $editorFileEx = "Editor/Unity"
 
   mkdir -pv "$HOME/Unity Hub" "$HOME/.config/Unity Hub" "$editorPath"
   sudo apt-get update
