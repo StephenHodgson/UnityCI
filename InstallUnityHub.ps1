@@ -80,11 +80,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   chmod -v a+x "$hubInstallationPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
   touch "$hubPath"
-  sudo echo "#!/bin/bash\necho `"`"Hi`"`"\nxvfb-run --auto-servernum `"`"$hubInstallationPath`"`" `"`"$@`"`"" > "$hubPath"
+  #\nxvfb-run --auto-servernum `"`"$hubInstallationPath`"`" `"`"$@`"`"
+  sudo echo "#!/bin/bash\necho `"`"Hi`"`"" > "$hubPath"
   echo "$(cat $hubPath)"
   sudo chmod -v a+x "$hubPath"
   # /UnityHub.AppImage --headless help
-  . "$hubPath" --headless help
+  . "$hubPath" # --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
