@@ -8,4 +8,5 @@ jobs:
   unity-hub:
     runs-on: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      run: InstallUnityHub.ps1
+      - name: Install Unity Hub
+        run: InstallUnityHub.ps1
