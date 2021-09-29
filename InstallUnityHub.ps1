@@ -44,7 +44,7 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   #"Unity Hub.exe" -- --headless help
   #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
   function unity-hub {
-    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args)
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args.Split(" "))
   }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
@@ -66,7 +66,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
   function unity-hub {
-    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args)
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args.Split(" "))
   }
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
