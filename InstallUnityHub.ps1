@@ -73,18 +73,19 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   mkdir -pv "$HOME/Unity Hub" "$HOME/.config/Unity Hub" "$editorPath"
   sudo apt-get update
-  sudo apt-get install -y libgconf-2-4 libglu1 libasound2 libgtk2.0-0 libgtk-3-0 libnss3 zenity xvfb
+  sudo apt-get install -y libgconf-2-4 libglu1 libasound2 libgtk2.0-0 libgtk-3-0 libnss3 zenity xvfb libc6-dev shc
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubInstallationPath")
   chmod -v a+x "$hubInstallationPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
-  touch "$hubPath"
-  sudo echo "#!/bin/bash\nxvfb-run --auto-servernum `"`"$hubInstallationPath`"`" `"`"$@`"`"" > "$hubPath"
-  echo "$(cat $hubPath)"
+  touch "$hubPath.sh"
+  sudo echo "#!/bin/bash\nxvfb-run --auto-servernum `"`"$hubInstallationPath`"`" `"`"$@`"`"" > "$hubPath.sh"
+  sudo chmod -v a+x "$hubPath.sh"
+  shc -f "$hubPath.sh" -o "$hubPath"
   sudo chmod -v a+x "$hubPath"
   # /UnityHub.AppImage --headless help
-  bash "$hubPath" --headless help
+  . "$hubPath" --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
