@@ -80,7 +80,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   chmod -v a+x "$hubInstallationPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
 
-  alias $hubPath="xvfb-run --auto-servernum `"$hubInstallationPath`""
+  alias $hubPath='xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage"'
 
   # /UnityHub.AppImage --headless help
   . "$hubPath" --headless help
