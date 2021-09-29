@@ -40,7 +40,6 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-  $baseArgs = @('--','--headless')
   #"Unity Hub.exe" -- --headless help
   #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
   function unity-hub {
@@ -62,7 +61,6 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $editorPath = "/Applications/Unity/Hub/Editor/"
   $editorFileEx = "Unity.app"
-  $baseArgs = @('--','--headless')
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
   function unity-hub {
@@ -114,7 +112,7 @@ if ( Test-Path -Path $modulesPath ) {
 
   if ( Test-Path -Path $modulesPath ) {
     Write-Host "Modules Manifest: "$modulesPath
-    $modules = ($baseArgs + @('im',"--version $UnityVersion"))
+    $modules = @('im',"--version $UnityVersion")
 
     foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
       if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
