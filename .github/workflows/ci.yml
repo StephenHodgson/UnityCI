@@ -1,4 +1,9 @@
-on: [pull_request]
+on:
+  pull_request:
+    branches: 
+      - '*'
+  push:
+    branches: main
 
 jobs:
   unity-hub:
