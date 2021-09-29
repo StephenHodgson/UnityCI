@@ -31,17 +31,20 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-  if( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" ) {
-    #"Unity Hub.exe" -- --headless help
-    $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
-    #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
-  } else {
+  $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
+  $editorPath = "C:\Program Files\Unity\Hub\Editor\"
+  $editorFileEx = "Editor\Unity.exe"
+
+  if ( -not (Test-Path "$hubPath") ) {
     Write-Error "Unity Hub.exe path not found!"
     exit 1
   }
 
-  $editorPath = "C:\Program Files\Unity\Hub\Editor\"
-  $editorFileEx = "Editor\Unity.exe"
+  #"Unity Hub.exe" -- --headless help
+  #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
+  function unity-hub {
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args.Split(" "))
+  }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -55,43 +58,46 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   sudo cp -rf "`"$dmgAppPath`"" "/Applications"
   hdiutil unmount $dmgVolume
 
-  # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $editorPath = "/Applications/Unity/Hub/Editor/"
   $editorFileEx = "Unity.app"
+  # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
+  function unity-hub {
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args.Split(" "))
+  }
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
+  $hubPath = "$HOME/Unity Hub/UnityHub.AppImage"
+  $editorPath = "$HOME/Unity/Hub/Editor/"
+  $editorFileEx = "Editor/Unity"
+
+  mkdir -pv "$HOME/Unity Hub" "$HOME/.config/Unity Hub" "$editorPath"
+  sudo apt-get update
+  sudo apt-get install -y libgconf-2-4 libglu1 libasound2 libgtk2.0-0 libgtk-3-0 libnss3 zenity xvfb
+
   #https://www.linuxdeveloper.space/install-unity-linux/
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$outPath/UnityHub.AppImage")
-  Set-Location $outPath
-  sudo chmod -v a+x UnityHub.AppImage
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
+  chmod -v a+x "$hubPath"
+  touch "$HOME/.config/Unity Hub/eulaAccepted"
 
-  # UnityHub.AppImage -- --headless help
-  $hubPath = "./UnityHub.AppImage"
-  $editorPath = "~/Unity/Hub/Editor/"
-  $editorFileEx = "Unity"
+  function unity-hub {
+    xvfb-run --auto-servernum "$hubPath" --headless $args
+  }
 
-  file ./UnityHub.AppImage
-
-  # Accept License
-  ./UnityHub.AppImage
+  # /UnityHub.AppImage --headless help
+  # xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','help')
+unity-hub help
 Write-Host ""
-Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
+unity-hub install --version $UnityVersion --changeset $UnityVersionChangeSet
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','install',"--version $UnityVersion","--changeset $UnityVersionChangeSet")
+unity-hub editors -i
 Write-Host ""
-Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
-Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','editors','-i')
-Write-Host ""
-Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
 
 $modulesPath = "$editorPath$UnityVersion"
 $editorPath = '{0}{1}{2}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,$editorFileEx
@@ -106,20 +112,17 @@ if ( Test-Path -Path $modulesPath ) {
 
   if ( Test-Path -Path $modulesPath ) {
     Write-Host "Modules Manifest: "$modulesPath
-    $modules = @('--','--headless','im',"--version $UnityVersion")
 
     foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
       if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
+        Write-Host ""
         Write-Host "found platform module" $module.id
-        $modules += '-m'
-        $modules += $module.id
+        Write-Host ""
+        unity-hub im --version $UnityVersion -m $module.id --cm
       }
     }
 
     Write-Host ""
-    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList $modules
-    Write-Host ""
-    Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
   } else {
     Write-Error "Failed to resolve modules path at $modulesPath"
     exit 1
@@ -131,5 +134,4 @@ if ( Test-Path -Path $modulesPath ) {
 
 Write-Host "Install Complete!"
 Write-Host "UnityEditor path set to: $editorPath"
-Write-Output "##vso[task.setvariable variable=EditorPath]$editorPath"
 exit 0
