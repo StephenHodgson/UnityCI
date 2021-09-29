@@ -125,7 +125,7 @@ if ( Test-Path -Path $modulesPath ) {
     }
 
     Write-Host ""
-    unity-hub $modules
+    unity-hub [system.String]::Join(" ", $modules)
     Write-Host ""
     Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
   } else {
