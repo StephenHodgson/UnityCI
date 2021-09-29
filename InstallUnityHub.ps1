@@ -84,7 +84,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo chmod -v a+x "$hubPath"
 
   # /UnityHub.AppImage -- --headless help
-  . "$hubPath" -- --headless help
+  $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','help')
+  #. "$hubPath" -- --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
