@@ -67,7 +67,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $hubInstallationPath = "$HOME/Unity Hub/UnityHub.AppImage"
-  $hubPath = "unity-hub"
+  $hubPath = "$HOME/Unity/unity-hub"
   $editorPath = "$HOME/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
@@ -79,8 +79,10 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubInstallationPath")
   chmod -v a+x "$hubInstallationPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
-
-  alias unity-hub='xvfb-run --auto-servernum $HOME/Unity\ Hub/UnityHub.AppImage'
+  touch "$hubPath.sh"
+  sudo echo "#!/bin/bash\nalias unity-hub='xvfb-run --auto-servernum `"`"$hubInstallationPath`"`"'" > "$hubPath.sh"
+  sudo chmod -v a+x "$hubPath.sh"
+  bash "$hubPath.sh"
 
   # /UnityHub.AppImage --headless help
   unity-hub --headless help
