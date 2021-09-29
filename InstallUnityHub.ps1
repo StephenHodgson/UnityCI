@@ -84,11 +84,11 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   touch "$HOME/.config/Unity Hub/eulaAccepted"
 
   function unity-hub {
-    xvfb-run --auto-servernum "$hubPath" $args
+    xvfb-run --auto-servernum "$hubPath" --headless $args
   }
 
   # /UnityHub.AppImage --headless help
-  unity-hub --headless help
+  xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
