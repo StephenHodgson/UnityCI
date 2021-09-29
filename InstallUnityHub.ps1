@@ -88,7 +88,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   }
 
   # /UnityHub.AppImage --headless help
-  xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
+  # xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
@@ -125,7 +125,8 @@ if ( Test-Path -Path $modulesPath ) {
     }
 
     Write-Host ""
-    unity-hub [system.String]::Join(" ", $modules)
+    $hubArgs = [system.String]::Join(" ", $modules)
+    unity-hub $hubArgs
     Write-Host ""
   } else {
     Write-Error "Failed to resolve modules path at $modulesPath"
