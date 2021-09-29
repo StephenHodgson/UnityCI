@@ -79,8 +79,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubInstallationPath")
   chmod -v a+x "$hubInstallationPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
-  
-  alias $hubPath="xvfb-run --auto-servernum `"`"$hubInstallationPath`"`" `"`"$@`"`""
+
+  alias $hubPath="xvfb-run --auto-servernum `"$hubInstallationPath`" `"$@`""
 
   # /UnityHub.AppImage --headless help
   . "$hubPath" --headless help
