@@ -79,8 +79,8 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo apt-get install -y libgconf-2-4 libglu1 libasound2 libgtk2.0-0 libgtk-3-0 libnss3 zenity xvfb
 
   #https://www.linuxdeveloper.space/install-unity-linux/
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubInstallationPath")
-  chmod -v a+x "$hubInstallationPath"
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
+  chmod -v a+x "$hubPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
 
   function unity-hub {
