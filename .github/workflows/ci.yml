@@ -7,4 +7,5 @@ concurrency:
 jobs:
   unity-hub:
     runs-on: [ubuntu-latest, windows-latest, macos-latest]
-    run: InstallUnityHub.ps1
+    steps:
+      run: InstallUnityHub.ps1
