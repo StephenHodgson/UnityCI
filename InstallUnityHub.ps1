@@ -14,8 +14,6 @@ $wc = New-Object System.Net.WebClient
 
 Write-Host "$(Get-Date): Download Complete, Starting installation..."
 
-$baseArgs = @('--headless')
-
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
   $startProcessArgs = @{
@@ -45,6 +43,9 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
   $baseArgs = @('--','--headless')
   #"Unity Hub.exe" -- --headless help
   #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
+  function unity-hub {
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args)
+  }
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -64,10 +65,12 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $baseArgs = @('--','--headless')
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
+  function unity-hub {
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args)
+  }
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
-  $hubInstallationPath = "$HOME/Unity Hub/UnityHub.AppImage"
-  $hubPath = "$HOME/Unity/unity-hub"
+  $hubPath = "$HOME/Unity Hub/UnityHub.AppImage"
   $editorPath = "$HOME/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
@@ -79,10 +82,10 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubInstallationPath")
   chmod -v a+x "$hubInstallationPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
-  touch "$hubPath.sh"
-  sudo echo "#!/bin/bash\nalias unity-hub='xvfb-run --auto-servernum `"`"$hubInstallationPath`"`"'" > "$hubPath.sh"
-  sudo chmod -v a+x "$hubPath.sh"
-  bash "$hubPath.sh"
+
+  function unity-hub {
+    xvfb-run --auto-servernum "$hubPath" $args
+  }
 
   # /UnityHub.AppImage --headless help
   unity-hub --headless help
@@ -91,17 +94,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList ($baseArgs + @('help'))
+unity-hub help
 Write-Host ""
-Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
+unity-hub install --version $UnityVersion --changeset $UnityVersionChangeSet
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList ($baseArgs + @('install',"--version $UnityVersion","--changeset $UnityVersionChangeSet"))
+unity-hub editors -i
 Write-Host ""
-Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
-Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList ($baseArgs + @('editors','-i'))
-Write-Host ""
-Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
 
 $modulesPath = "$editorPath$UnityVersion"
 $editorPath = '{0}{1}{2}' -f $modulesPath,[IO.Path]::DirectorySeparatorChar,$editorFileEx
@@ -127,7 +125,7 @@ if ( Test-Path -Path $modulesPath ) {
     }
 
     Write-Host ""
-    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList $modules
+    unity-hub $modules
     Write-Host ""
     Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
   } else {
