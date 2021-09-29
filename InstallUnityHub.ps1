@@ -14,6 +14,8 @@ $wc = New-Object System.Net.WebClient
 
 Write-Host "$(Get-Date): Download Complete, Starting installation..."
 
+$baseArgs = @('--headless')
+
 if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT")) {
   $wc.DownloadFile("$baseUrl/UnityHubSetup.exe", "$outPath/UnityHubSetup.exe")
   $startProcessArgs = @{
@@ -31,17 +33,18 @@ if ((-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform 
     exit 1
   }
 
-  if ( Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe" ) {
-    #"Unity Hub.exe" -- --headless help
-    $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
-    #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
-  } else {
+  $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
+  $editorPath = "C:\Program Files\Unity\Hub\Editor\"
+  $editorFileEx = "Editor\Unity.exe"
+
+  if ( -not (Test-Path "$hubPath") ) {
     Write-Error "Unity Hub.exe path not found!"
     exit 1
   }
 
-  $editorPath = "C:\Program Files\Unity\Hub\Editor\"
-  $editorFileEx = "Editor\Unity.exe"
+  $baseArgs += '--'
+  #"Unity Hub.exe" -- --headless help
+  #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $package = "UnityHubSetup.dmg"
@@ -58,6 +61,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $editorPath = "/Applications/Unity/Hub/Editor/"
   $editorFileEx = "Unity.app"
+  $baseArgs += '--'
   # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
@@ -82,15 +86,15 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','help')
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList ($baseArgs + @('help'))
 Write-Host ""
 Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','install',"--version $UnityVersion","--changeset $UnityVersionChangeSet")
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList ($baseArgs + @('install',"--version $UnityVersion","--changeset $UnityVersionChangeSet"))
 Write-Host ""
 Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
 Write-Host ""
-$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','editors','-i')
+$p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList ($baseArgs + @('editors','-i'))
 Write-Host ""
 Write-Host "Successful exit code? " ($p.ExitCode -eq 0)
 
@@ -107,7 +111,7 @@ if ( Test-Path -Path $modulesPath ) {
 
   if ( Test-Path -Path $modulesPath ) {
     Write-Host "Modules Manifest: "$modulesPath
-    $modules = @('--','--headless','im',"--version $UnityVersion")
+    $modules = ($baseArgs + @('im',"--version $UnityVersion"))
 
     foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
       if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
