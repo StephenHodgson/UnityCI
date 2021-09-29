@@ -115,6 +115,7 @@ if ( Test-Path -Path $modulesPath ) {
 
     foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
       if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
+        Write-Host ""
         Write-Host "found platform module" $module.id
         Write-Host ""
         unity-hub im --version $UnityVersion -m $module.id --cm
