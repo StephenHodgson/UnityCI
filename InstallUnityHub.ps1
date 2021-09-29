@@ -67,7 +67,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $editorPath = "$HOME/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
-  mkdir -pv "$HOME/Unity Hub" "$HOME/.config/Unity Hub" $hubPath
+  mkdir -pv "$HOME/Unity Hub" "$HOME/.config/Unity Hub"
   sudo apt-get update
   sudo apt-get install -y libgconf-2-4 libglu1 libasound2 libgtk2.0-0 libgtk-3-0 libnss3 zenity xvfb
 
