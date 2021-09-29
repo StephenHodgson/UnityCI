@@ -66,8 +66,7 @@ elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
   #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
 }
 elseif ($global:PSVersionTable.OS.Contains("Linux")) {
-  $hubInstallationPath = "$HOME/Unity Hub/UnityHub.AppImage"
-  $hubPath = "$HOME/Unity/unity-hub"
+  $hubPath = "$HOME/Unity Hub/UnityHub.AppImage"
   $editorPath = "$HOME/Unity/Hub/Editor/"
   $editorFileEx = "Unity"
 
@@ -76,16 +75,12 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   sudo apt-get install -y libgconf-2-4 libglu1 libasound2 libgtk2.0-0 libgtk-3-0 libnss3 zenity xvfb
 
   #https://www.linuxdeveloper.space/install-unity-linux/
-  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubInstallationPath")
-  chmod -v a+x "$hubInstallationPath"
+  $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
+  chmod -v a+x "$hubPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
-  touch "$hubPath"
-  sudo echo "#!/bin/bash\nxvfb-run -ae /dev/stdout --server-args=`"-screen 0 1024x768x24 +extension RANDR`" `"$hubInstallationPath`" `"$@`"" > "$hubPath"
-  sudo chmod -v a+x "$hubPath"
 
   # /UnityHub.AppImage -- --headless help
-  $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList @('--','--headless','help')
-  #. "$hubPath" -- --headless help
+  xvfb-run --auto-servernum "$hubPath" -- --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
