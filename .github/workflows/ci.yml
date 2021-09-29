@@ -1,0 +1,10 @@
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  unity-hub:
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+    run: InstallUnityHub.ps1
