@@ -94,8 +94,6 @@ Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 unity-hub help
 Write-Host ""
-unity-hub ip -g
-Write-Host ""
 unity-hub install --version $UnityVersion --changeset $UnityVersionChangeSet
 Write-Host ""
 unity-hub editors -i
@@ -114,19 +112,15 @@ if ( Test-Path -Path $modulesPath ) {
 
   if ( Test-Path -Path $modulesPath ) {
     Write-Host "Modules Manifest: "$modulesPath
-    $modules = @('im',"--version $UnityVersion")
 
     foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
       if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
         Write-Host "found platform module" $module.id
-        $modules += '-m'
-        $modules += $module.id
+        Write-Host ""
+        unity-hub im --version $UnityVersion -m $module.id --cm
       }
     }
 
-    Write-Host ""
-    $hubArgs = [system.String]::Join(" ", $modules)
-    unity-hub $hubArgs
     Write-Host ""
   } else {
     Write-Error "Failed to resolve modules path at $modulesPath"
