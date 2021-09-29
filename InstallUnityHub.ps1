@@ -73,11 +73,11 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
   #https://www.linuxdeveloper.space/install-unity-linux/
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubInstallPath")
-  chmod -v x "$hubInstallPath"
+  chmod -v a+x "$hubInstallPath"
   touch "~/.config/Unity Hub/eulaAccepted"
 
   sudo echo "#!/bin/bash\nxvfb-run --auto-servernum `"$hubInstallPath`" `"$@`"" > "$hubPath"
-  sudo chmod -v x "$hubPath"
+  sudo chmod -v a+x "$hubPath"
 
   # /UnityHub.AppImage -- --headless help
   . "$hubPath" -- --headless help
