@@ -75,7 +75,7 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubInstallPath")
   chmod -v a+x "$hubInstallPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
-
+  touch "$hubPath"
   sudo echo "#!/bin/bash\nxvfb-run --auto-servernum `"$hubInstallPath`" `"$@`"" > "$hubPath"
   sudo chmod -v a+x "$hubPath"
 
