@@ -79,22 +79,17 @@ elseif ($global:PSVersionTable.OS.Contains("Linux")) {
   chmod -v a+x "$hubPath"
   touch "$HOME/.config/Unity Hub/eulaAccepted"
 
+  # /UnityHub.AppImage --headless help
+  # xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
   function unity-hub {
     xvfb-run --auto-servernum "$hubPath" --headless $args
   }
-
-  # /UnityHub.AppImage --headless help
-  # xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
 }
 
 Write-Host "Install Hub Complete: $hubPath"
 Write-Host ""
 Write-Host "Unity HUB CLI Options:"
 unity-hub help
-Write-Host ""
-unity-hub install --version $UnityVersion --changeset $UnityVersionChangeSet
-Write-Host ""
-unity-hub editors -i
 Write-Host ""
 
 $modulesPath = "$editorPath$UnityVersion"
@@ -110,16 +105,23 @@ if ( Test-Path -Path $modulesPath ) {
 
   if ( Test-Path -Path $modulesPath ) {
     Write-Host "Modules Manifest: "$modulesPath
+    $installArgs = @('install',"--version $unityVersion","--changeset $unityVersionChangeSet",'--cm')
 
     foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
       if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
+        $installArgs += '-m'
+        $installArgs += $module.id
         Write-Host ""
         Write-Host "found platform module" $module.id
-        Write-Host ""
-        unity-hub im --version $UnityVersion -m $module.id --cm
       }
     }
 
+    $installArgsString = $installArgs -join " "
+
+    Write-Host ""
+    unity-hub $installArgsString
+    Write-Host ""
+    unity-hub editors -i
     Write-Host ""
   } else {
     Write-Error "Failed to resolve modules path at $modulesPath"
