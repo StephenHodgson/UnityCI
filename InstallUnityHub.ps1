@@ -141,8 +141,6 @@ if ( Test-Path -Path $modulesPath ) {
     if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
       if ( -not ($modules -contains $module.id) ) {
         Write-Host "additional module option: " $module.id
-      } else {
-        Write-Host "installed module: " $module.id
       }
     }
   }
