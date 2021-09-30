@@ -110,13 +110,12 @@ $editorPath = "{0}{1}{2}" -f $editorRootPath,$unityVersion,$editorFileEx
 
 if ( -not (Test-Path -Path $editorPath) ) {
   Write-Host "Installing $unityVersion ($unityVersionChangeSet)..."
-  Write-Host ""
   $installArgs = @('install',"--version $unityVersion","--changeset $unityVersionChangeSet",'--cm')
 
   foreach ( $module in $modules ) {
     $installArgs += '-m'
     $installArgs += $module
-    Write-Host " + adding module: $module"
+    Write-Host "  with module: $module"
   }
 
   $installArgsString = $installArgs -join " "
