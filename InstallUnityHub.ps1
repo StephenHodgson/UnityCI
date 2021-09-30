@@ -134,5 +134,24 @@ if ( -not (Test-Path -Path $editorPath) ) {
   exit 1
 }
 
+$modulesPath = '{0}{1}{2}modules.json' -f $editorRootPath,$UnityVersion,[IO.Path]::DirectorySeparatorChar
+
+if ( Test-Path -Path $modulesPath ) {
+  Write-Host "Modules Manifest: "$modulesPath
+
+  foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
+    if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
+      Write-Host ""
+      Write-Host "additional module option: " $module.id
+    }
+  }
+
+} else {
+  Write-Error "Failed to resolve modules path at $modulesPath"
+  exit 1
+}
+
+Write-Host ""
 Write-Host "UnityEditor path set to: $editorPath"
+Write-Host ""
 exit 0
