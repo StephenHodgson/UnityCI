@@ -37,7 +37,7 @@ elseif ( $global:PSVersionTable.OS.Contains("Linux") ) {
   $hubPath = "$HOME/Unity Hub/UnityHub.AppImage"
   $editorRootPath = "$HOME/Unity/Hub/Editor/"
   $editorFileEx = "/Editor/Unity"
-  $modules = @('linux', 'lumin', 'webgl', 'android')
+  $modules = @('webgl', 'android')
 
   # /UnityHub.AppImage --headless help
   # xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
@@ -138,10 +138,10 @@ $modulesPath = '{0}{1}{2}modules.json' -f $editorRootPath,$UnityVersion,[IO.Path
 
 if ( Test-Path -Path $modulesPath ) {
   Write-Host "Modules Manifest: "$modulesPath
+  Write-Host ""
 
   foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
     if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
-      Write-Host ""
       Write-Host "additional module option: " $module.id
     }
   }
