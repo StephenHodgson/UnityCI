@@ -3,7 +3,7 @@ on:
     branches: 
       - '*'
   push:
-    branches: main
+    branches: master
 
 jobs:
   unity-hub:
