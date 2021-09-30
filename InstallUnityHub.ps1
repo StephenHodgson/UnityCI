@@ -36,7 +36,7 @@ elseif ( $global:PSVersionTable.OS.Contains("Darwin") ) {
 elseif ( $global:PSVersionTable.OS.Contains("Linux") ) {
   $hubPath = "$HOME/Unity Hub/UnityHub.AppImage"
   $editorRootPath = "$HOME/Unity/Hub/Editor/"
-  $editorFileEx = "Editor/Unity"
+  $editorFileEx = "/Editor/Unity"
   $modules = @('linux', 'lumin', 'webgl', 'android')
 
   # /UnityHub.AppImage --headless help
