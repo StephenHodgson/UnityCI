@@ -1,9 +1,4 @@
 $version = "m_EditorVersionWithRevision: 2019.1.14f1 (148b5891095a)"
-
-Write-Host "$(Get-Date): Downloading Unity Hub..."
-
-$baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
-$outPath = $PSScriptRoot
 $pattern = '(?<version>(?:(?<major>\d+)\.)?(?:(?<minor>\d+)\.)?(?:(?<patch>\d+[fab]\d+)\b))|((?:\((?<revision>\w+))\))'
 $versonMatches = [regex]::Matches($version, $pattern)
 $UnityVersion = $versonMatches[0].Groups['version'].Value.Trim()
@@ -48,6 +43,9 @@ elseif ( $global:PSVersionTable.OS.Contains("Linux") ) {
 
 # Install hub if not found
 if ( -not (Test-Path -Path "$hubPath") ) {
+  Write-Host "$(Get-Date): Downloading Unity Hub..."
+  $baseUrl = "https://public-cdn.cloud.unity3d.com/hub/prod";
+  $outPath = $PSScriptRoot
   $wc = New-Object System.Net.WebClient
 
   Write-Host "$(Get-Date): Download Complete, Starting installation..."
