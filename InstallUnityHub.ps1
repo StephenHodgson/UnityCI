@@ -9,7 +9,6 @@ $versonMatches = [regex]::Matches($version, $pattern)
 $UnityVersion = $versonMatches[0].Groups['version'].Value.Trim()
 $UnityVersionChangeSet = $versonMatches[1].Groups['revision'].Value.Trim()
 
-
 if ( (-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform -eq "Win32NT") ) {
   $hubPath = "C:\Program Files\Unity Hub\Unity Hub.exe"
   $editorRootPath = "C:\Program Files\Unity\Hub\Editor\"
@@ -43,7 +42,7 @@ elseif ( $global:PSVersionTable.OS.Contains("Linux") ) {
   # /UnityHub.AppImage --headless help
   # xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
   function unity-hub {
-    xvfb-run --auto-servernum "$hubPath" --headless $args
+    xvfb-run --auto-servernum "$hubPath" --headless $args.Split(" ")
   }
 }
 
