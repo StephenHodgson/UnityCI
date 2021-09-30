@@ -15,20 +15,39 @@ if ( (-not $global:PSVersionTable.Platform) -or ($global:PSVersionTable.Platform
   $editorRootPath = "C:\Program Files\Unity\Hub\Editor\"
   $editorFileEx = "\Editor\Unity.exe"
   $modules = @('windows-il2cpp', 'universal-windows-platform', 'lumin', 'webgl', 'android')
+
+  #"Unity Hub.exe" -- --headless help
+  #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
+  function unity-hub {
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args.Split(" "))
+  }
 }
 elseif ( $global:PSVersionTable.OS.Contains("Darwin") ) {
   $hubPath = "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub"
   $editorRootPath = "/Applications/Unity/Hub/Editor/"
   $editorFileEx = "/Unity.app"
   $modules = @('mac-il2cpp', 'ios', 'lumin', 'webgl', 'android')
+
+  # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
+  #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
+  function unity-hub {
+    $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args.Split(" "))
+  }
 }
 elseif ( $global:PSVersionTable.OS.Contains("Linux") ) {
   $hubPath = "$HOME/Unity Hub/UnityHub.AppImage"
   $editorRootPath = "$HOME/Unity/Hub/Editor/"
   $editorFileEx = "Editor/Unity"
   $modules = @('linux', 'lumin', 'webgl', 'android')
+
+  # /UnityHub.AppImage --headless help
+  # xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
+  function unity-hub {
+    xvfb-run --auto-servernum "$hubPath" --headless $args
+  }
 }
 
+# Install hub if not found
 if ( -not (Test-Path -Path "$hubPath") ) {
   $wc = New-Object System.Net.WebClient
 
@@ -50,12 +69,6 @@ if ( -not (Test-Path -Path "$hubPath") ) {
       Write-Error "$(Get-Date): Failed with exit code: $($process.ExitCode)"
       exit 1
     }
-
-    #"Unity Hub.exe" -- --headless help
-    #. 'C:\Program Files\Unity Hub\Unity Hub.exe' -- --headless help
-    function unity-hub {
-      $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args.Split(" "))
-    }
   }
   elseif ($global:PSVersionTable.OS.Contains("Darwin")) {
     $package = "UnityHubSetup.dmg"
@@ -68,12 +81,6 @@ if ( -not (Test-Path -Path "$hubPath") ) {
     Write-Host $dmgAppPath
     sudo cp -rf "`"$dmgAppPath`"" "/Applications"
     hdiutil unmount $dmgVolume
-
-    # /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub -- --headless help
-    #. "/Applications/Unity Hub.app/Contents/MacOS/Unity Hub" -- --headless help
-    function unity-hub {
-      $p = Start-Process -Verbose -NoNewWindow -PassThru -Wait -FilePath "$hubPath" -ArgumentList (@('--','--headless') + $args.Split(" "))
-    }
   }
   elseif ($global:PSVersionTable.OS.Contains("Linux")) {
 
@@ -85,12 +92,6 @@ if ( -not (Test-Path -Path "$hubPath") ) {
     $wc.DownloadFile("$baseUrl/UnityHub.AppImage", "$hubPath")
     chmod -v a+x "$hubPath"
     touch "$HOME/.config/Unity Hub/eulaAccepted"
-
-    # /UnityHub.AppImage --headless help
-    # xvfb-run --auto-servernum "$HOME/Unity Hub/UnityHub.AppImage" --headless help
-    function unity-hub {
-      xvfb-run --auto-servernum "$hubPath" --headless $args
-    }
   }
 }
 
