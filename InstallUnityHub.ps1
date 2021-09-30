@@ -140,7 +140,9 @@ if ( Test-Path -Path $modulesPath ) {
 
   foreach ($module in (Get-Content -Raw -Path $modulesPath | ConvertFrom-Json)) {
     if ( ($module.category -eq 'Platforms') -and ($module.visible -eq $true) ) {
-      Write-Host "additional module option: " $module.id
+      if( -not $modules -Contains $module.id ) {
+        Write-Host "additional module option: " $module.id
+      }
     }
   }
 
